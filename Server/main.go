@@ -2,55 +2,81 @@ package main
 
 import (
 	"bufio"
+	"database/sql"
+	"fmt"
 	"log"
 	"net"
 	"strings"
+
+	_ "github.com/lib/pq"
 )
 
-func main() {
-	addr := "localhost:8080"
-	listener, err := net.Listen("tcp", addr)
+var db *sql.DB
 
+func initDatabase() error {
+	var err error
+
+	connStr := "URL SUDA POSTAVIT' NADO"
+	db, err = sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatalf("Error starting server: %v", err)
+		return fmt.Errorf("ошибка подключения к базе данных: %w", err)
 	}
 
+	// Проверка подключения к базе данных
+	err = db.Ping()
+	if err != nil {
+		return fmt.Errorf("не удалось проверить подключение к базе данных: %w", err)
+	}
+
+	return nil
+}
+
+func main() {
+	if err := initDatabase(); err != nil {
+		log.Fatalf("Ошибка при инициализации базы данных: %v", err)
+	}
+
+	addr := "localhost:8080"
+	listener, err := net.Listen("tcp", addr)
+	if err != nil {
+		log.Fatalf("Ошибка запуска сервера: %v", err)
+	}
 	defer listener.Close()
 
-	log.Println("Listening on " + addr)
+	log.Println("Слушаем на " + addr)
 
-	// бесконечный цикл сервера
+	// Бесконечный цикл сервера
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			log.Printf("Error accepting connection: %v", err)
+			log.Printf("Ошибка принятия соединения: %v", err)
 			continue
 		}
-		// обработка соединений
+		// Обработка соединений
 		go handleRequest(conn)
 	}
 }
 
-// функция обработки запроса
+// Функция обработки запроса
 func handleRequest(conn net.Conn) {
 	defer conn.Close()
 
 	reader := bufio.NewReader(conn)
 	request, err := reader.ReadString('\n')
 	if err != nil {
-		log.Printf("Error reading request: %v", err)
+		log.Printf("Ошибка чтения запроса: %v", err)
 		return
 	}
 
 	// Логирование запроса
-	log.Printf("Received request: %s", request)
+	log.Printf("Получен запрос: %s", request)
 
 	// Разбор запроса
 	lines := strings.Split(request, "\r\n")
 	method := ""
 	if len(lines) > 0 {
 		parts := strings.Split(lines[0], " ")
-		if len(parts) == 3 {
+		if len(parts) >= 2 {
 			method = parts[0]
 		}
 	}
@@ -74,7 +100,7 @@ func handleRequest(conn net.Conn) {
 	// Отправка ответа
 	_, err = conn.Write([]byte(response))
 	if err != nil {
-		log.Printf("Error writing response: %v", err)
+		log.Printf("Ошибка записи ответа: %v", err)
 		return
 	}
 }
