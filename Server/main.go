@@ -2,34 +2,12 @@ package main
 
 import (
 	"bufio"
-	"database/sql"
-	"fmt"
 	"log"
 	"net"
 	"strings"
 
 	_ "github.com/lib/pq"
 )
-
-var db *sql.DB
-
-func initDatabase() error {
-	var err error
-
-	connStr := "URL SUDA POSTAVIT' NADO"
-	db, err = sql.Open("postgres", connStr)
-	if err != nil {
-		return fmt.Errorf("ошибка подключения к базе данных: %w", err)
-	}
-
-	// Проверка подключения к базе данных
-	err = db.Ping()
-	if err != nil {
-		return fmt.Errorf("не удалось проверить подключение к базе данных: %w", err)
-	}
-
-	return nil
-}
 
 func main() {
 	if err := initDatabase(); err != nil {
