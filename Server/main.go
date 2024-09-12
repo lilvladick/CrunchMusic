@@ -2,33 +2,47 @@ package main
 
 import (
 	"log"
-	"net"
+	"os"
+	"syscall"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	if err := initDatabase(); err != nil {
-		log.Fatalf("Ошибка при инициализации базы данных: %v", err)
-	}
-
-	addr := "localhost:8080"
-	listener, err := net.Listen("tcp", addr)
+	fd, err := syscall.Socket(syscall.AF_INET, syscall.SOCK_STREAM, 0) // AF_INET = IPv4, SOCK_STREAM = TCP
 	if err != nil {
-		log.Fatalf("Ошибка запуска сервера: %v", err)
+		log.Print("socket creating errorrror: ", err)
+		os.Exit(1)
 	}
-	defer listener.Close()
+	defer syscall.Close(fd)
 
-	log.Println("Слушаем на " + addr)
+	if err := initDatabase(); err != nil {
+		log.Fatalf("data base init error: %v", err)
+	}
 
-	// Бесконечный цикл сервера
+	addr := syscall.SockaddrInet4{Port: 8080}
+	copy(addr.Addr[:], []byte{0, 0, 0, 0})
+
+	err = syscall.Bind(fd, &addr)
+	if err != nil {
+		log.Print("bind error: ", err)
+		os.Exit(1)
+	}
+
+	err = syscall.Listen(fd, 10)
+	if err != nil {
+		log.Print("listen error: ", err)
+		os.Exit(1)
+	}
+	log.Print("server started")
+
 	for {
-		conn, err := listener.Accept()
+		connFd, _, err := syscall.Accept(fd) // AF_INET = IPv4, SOCK_STREAM = TCP
 		if err != nil {
-			log.Printf("Ошибка принятия соединения: %v", err)
-			continue
+			log.Print("accept error: ", err)
+			os.Exit(1)
 		}
-		// Обработка соединений
-		go handleRequest(conn)
+
+		go handleRequest(connFd)
 	}
 }

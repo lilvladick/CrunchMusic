@@ -1,56 +1,33 @@
 package main
 
 import (
-	"bufio"
 	"log"
-	"net"
 	"strings"
+	"syscall"
 )
 
 // Функция обработки запроса
-func handleRequest(conn net.Conn) {
-	defer conn.Close()
-
-	reader := bufio.NewReader(conn)
-	request, err := reader.ReadString('\n')
+func handleRequest(fd int) {
+	defer syscall.Close(fd)
+	buf := make([]byte, 1024)
+	n, err := syscall.Read(fd, buf)
 	if err != nil {
-		log.Printf("Ошибка чтения запроса: %v", err)
+		log.Print("read error: ", err)
 		return
 	}
 
-	// Логирование запроса
-	log.Printf("Получен запрос: %s", request)
+	request := string(buf[:n])
+	log.Print(request)
 
-	// Разбор запроса
-	lines := strings.Split(request, "\r\n")
-	method := ""
-	if len(lines) > 0 {
-		parts := strings.Split(lines[0], " ")
-		if len(parts) >= 2 {
-			method = parts[0]
-		}
-	}
-
-	// Формирование ответа
-	var response string
-	if method == "GET" {
-		responseBody := "GET SUCCESS"
-		response = "HTTP/1.1 200 OK\r\n"
-		response += "Content-Type: text/html\r\n"
-		response += "\r\n"
-		response += responseBody
+	if strings.HasPrefix(request, "GET ") {
+		response := "HTTP/1.1 200 OK\r\n" +
+			"Content-Type: text/plain\r\n" +
+			"Content-Length: 13\r\n" +
+			"\r\n" +
+			"Hello, world!"
+		syscall.Write(fd, []byte(response))
 	} else {
-		responseBody := "Method Not Allowed"
-		response = "HTTP/1.1 405 Method Not Allowed\r\n"
-		response += "Content-Type: text/html\r\n"
-		response += "\r\n"
-		response += responseBody
-	}
-
-	// Отправка ответа
-	_, err = conn.Write([]byte(response))
-	if err != nil {
-		log.Printf("Ошибка записи ответа: %v", err)
-		return
+		responce := "HTTP/1.1 404 Not Found\r\n" + "\r\n"
+		syscall.Write(fd, []byte(responce))
 	}
 }
