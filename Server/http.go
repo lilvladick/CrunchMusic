@@ -7,7 +7,8 @@ import (
 )
 
 // Функция обработки запроса
-func handleRequest(fd int) {
+// syscall.Handle - файловый дескриптор (syscall.Handle для винды, а int для unix)
+func handleRequest(fd syscall.Handle) {
 	defer syscall.Close(fd)
 	buf := make([]byte, 1024)
 	n, err := syscall.Read(fd, buf)
