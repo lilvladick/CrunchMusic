@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */; };
-		5EBDF4DD2C92D9A000021679 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DC2C92D9A000021679 /* ContentView.swift */; };
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
+		5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5186A2C95AD8E001A32B8 /* AuthView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrunchMusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrunchMusicAppApp.swift; sourceTree = "<group>"; };
-		5EBDF4DC2C92D9A000021679 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5ED5186A2C95AD8E001A32B8 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */,
-				5EBDF4DC2C92D9A000021679 /* ContentView.swift */,
+				5ED5186A2C95AD8E001A32B8 /* AuthView.swift */,
 				5EBDF4DE2C92D9A200021679 /* Assets.xcassets */,
 				5EBDF4E02C92D9A300021679 /* Preview Content */,
 			);
@@ -137,8 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EBDF4DD2C92D9A000021679 /* ContentView.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
+				5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

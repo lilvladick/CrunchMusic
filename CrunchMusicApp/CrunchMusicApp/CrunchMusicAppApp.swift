@@ -4,7 +4,7 @@ import SwiftUI
 struct CrunchMusicAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SignUpView()
         }
     }
 }
