@@ -11,6 +11,8 @@
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
 		5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5186A2C95AD8E001A32B8 /* AuthView.swift */; };
+		5EFE51742C96C82600FE7823 /* TracksList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE51732C96C82600FE7823 /* TracksList.swift */; };
+		5EFE51762C96CB2300FE7823 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE51752C96CB2300FE7823 /* SideMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5ED5186A2C95AD8E001A32B8 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		5EFE51732C96C82600FE7823 /* TracksList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksList.swift; sourceTree = "<group>"; };
+		5EFE51752C96CB2300FE7823 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +55,10 @@
 		5EBDF4D92C92D9A000021679 /* CrunchMusicApp */ = {
 			isa = PBXGroup;
 			children = (
+				5EFE51722C96C7D500FE7823 /* Security */,
+				5EFE51712C96C7CB00FE7823 /* Models */,
+				5EFE51702C96C7B800FE7823 /* Views */,
 				5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */,
-				5ED5186A2C95AD8E001A32B8 /* AuthView.swift */,
 				5EBDF4DE2C92D9A200021679 /* Assets.xcassets */,
 				5EBDF4E02C92D9A300021679 /* Preview Content */,
 			);
@@ -65,6 +71,30 @@
 				5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5EFE51702C96C7B800FE7823 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5ED5186A2C95AD8E001A32B8 /* AuthView.swift */,
+				5EFE51732C96C82600FE7823 /* TracksList.swift */,
+				5EFE51752C96CB2300FE7823 /* SideMenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5EFE51712C96C7CB00FE7823 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5EFE51722C96C7D500FE7823 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Security;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +167,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EFE51742C96C82600FE7823 /* TracksList.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
+				5EFE51762C96CB2300FE7823 /* SideMenuView.swift in Sources */,
 				5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

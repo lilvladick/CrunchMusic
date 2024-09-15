@@ -19,7 +19,7 @@ struct LogInView: View {
                     .padding(.horizontal, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.accentColor.opacity(0.2), lineWidth: 2)
                     )
                     .padding(.bottom, 10)
                 
@@ -28,7 +28,7 @@ struct LogInView: View {
                     .padding(.horizontal, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.accentColor.opacity(0.2), lineWidth: 2)
                     )
                     .padding(.bottom, 20)
                 
@@ -43,7 +43,7 @@ struct LogInView: View {
                         .padding(10)
                         .frame(maxWidth: 100)
                 })
-                .background(Color.blue)
+                .background(Color.accentColor)
                 .cornerRadius(10)
             }
             .padding(30)
@@ -71,7 +71,7 @@ struct SignUpView: View {
                     .padding(.horizontal, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.accentColor.opacity(0.2), lineWidth: 2)
                     )
                     .padding(.bottom, 10)
                 
@@ -80,7 +80,7 @@ struct SignUpView: View {
                     .padding(.horizontal, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.accentColor.opacity(0.2), lineWidth: 2)
                     )
                     .padding(.bottom, 10)
                 
@@ -89,13 +89,17 @@ struct SignUpView: View {
                     .padding(.horizontal, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.accentColor.opacity(0.2), lineWidth: 2)
                     )
                     .padding(.bottom, 20)
                 NavigationLink(destination: LogInView()) {
-                    Text("Already have an account? Log In")
-                        .font(.callout)
-                        .foregroundStyle(Color.blue)
+                    HStack {
+                        Text("Already have an account? ")
+                            .foregroundStyle(Color.black)
+                        Text("Log In")
+                            .foregroundStyle(Color.accentColor)
+                            .bold()
+                    }.font(.callout)
                 }
                 
                 Spacer()
@@ -109,7 +113,7 @@ struct SignUpView: View {
                         .padding(10)
                         .frame(maxWidth: 100)
                 })
-                .background(Color.blue)
+                .background(Color.accentColor)
                 .cornerRadius(10)
             }
             .padding(30)
