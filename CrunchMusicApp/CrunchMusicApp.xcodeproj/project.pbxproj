@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844172C99B78C000EC38F /* SecureStorage.swift */; };
+		5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844192C99BBBD000EC38F /* Credentials.swift */; };
+		5E08441C2C99C316000EC38F /* Passwords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E08441B2C99C312000EC38F /* Passwords.swift */; };
 		5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */; };
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E0844172C99B78C000EC38F /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
+		5E0844192C99BBBD000EC38F /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		5E08441B2C99C312000EC38F /* Passwords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passwords.swift; sourceTree = "<group>"; };
 		5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrunchMusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrunchMusicAppApp.swift; sourceTree = "<group>"; };
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -102,6 +108,9 @@
 		5EFE51722C96C7D500FE7823 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				5E0844172C99B78C000EC38F /* SecureStorage.swift */,
+				5E08441B2C99C312000EC38F /* Passwords.swift */,
+				5E0844192C99BBBD000EC38F /* Credentials.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -176,8 +185,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E08441C2C99C316000EC38F /* Passwords.swift in Sources */,
 				5EFE51742C96C82600FE7823 /* TracksList.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
+				5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */,
+				5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */,
 				5EE10F582C9958A100562071 /* UserTracksView.swift in Sources */,
 				5EE10F542C99580800562071 /* UploadTrackView.swift in Sources */,
 				5EE10F562C99586000562071 /* SettingsView.swift in Sources */,

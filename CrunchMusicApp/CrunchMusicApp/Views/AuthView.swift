@@ -14,7 +14,7 @@ struct LogInView: View {
                     .bold()
                     .padding(.bottom, 20)
                 
-                TextField("Email", text: $email)
+                TextField("Login", text: $email)
                     .frame(height: 50)
                     .padding(.horizontal, 10)
                     .overlay(
@@ -66,7 +66,7 @@ struct SignUpView: View {
                     .bold()
                     .padding(.bottom, 20)
                 
-                TextField("Email", text: $email)
+                TextField("Login", text: $login)
                     .frame(height: 50)
                     .padding(.horizontal, 10)
                     .overlay(
@@ -75,7 +75,7 @@ struct SignUpView: View {
                     )
                     .padding(.bottom, 10)
                 
-                TextField("Login", text: $login)
+                TextField("Emain", text: $email)
                     .frame(height: 50)
                     .padding(.horizontal, 10)
                     .overlay(
