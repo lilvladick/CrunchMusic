@@ -1,35 +1,46 @@
 import SwiftUI
 
 struct TracksList: View {
-    @State private var navigationPath: [String] = []
-
+    @State private var isShowingMenu:Bool = false
     var body: some View {
-        NavigationStack(path: $navigationPath) {
-            VStack {
-                // JSON PARSE TRACKS TO LIST
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading, content: {
-                    Button(action: {
-                        navigationPath.append("menu")
-                    }, label: {
-                        Image(systemName: "list.dash")
-                    })
-                })
-                ToolbarItem(placement: .topBarTrailing, content: {
-                    Button(action: {
-                        // Action for the magnifying glass button
-                    }, label: {
-                        Image(systemName: "magnifyingglass")
-                    })
-                })
-            }
-            .bold()
-            .navigationDestination(for: String.self) { destination in
-                if destination == "menu" {
-                    SideMenuView()
+        ZStack {
+            NavigationStack() {
+                VStack {
+                    // JSON PARSE TRACKS TO LIST
                 }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading, content: {
+                        Button(action: {
+                            withAnimation {
+                                isShowingMenu.toggle()
+                            }
+                        }, label: {
+                            Image(systemName: "list.dash")
+                        })
+                    })
+                    
+                    ToolbarItem(placement: .topBarTrailing, content: {
+                        Button(action: {
+                            // Serch action
+                        }, label: {
+                            Image(systemName: "magnifyingglass")
+                        })
+                    })
+                }
+                .bold()
             }
+            if isShowingMenu {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation {
+                            isShowingMenu = false
+                        }
+                    }
+            }
+            
+            SideMenuView(isShowing: $isShowingMenu)
+                .transition(.move(edge: .leading))
         }
     }
 }

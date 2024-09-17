@@ -1,55 +1,64 @@
 import SwiftUI
 
 struct SideMenuView: View {
-
+    @Binding var isShowing: Bool
     var body: some View {
-        VStack(alignment: .leading) {
-            // load track
-            Button(action: {
+        GeometryReader { geometry in
+            VStack(alignment: .leading) {
                 
-            }, label: {
-                Image(systemName: "square.and.arrow.up")
-                Text("Upload Tracks")
-            }).padding(.vertical, 15)
-            
-            // my tracks (in view can pick your tracks only or not)
-            Button(action: {
+                // load track
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "square.and.arrow.up")
+                    Text("Upload Tracks")
+                }).padding(.top, 50)
                 
-            }, label: {
-                Image(systemName: "music.note.list")
-                Text("Tracks")
-            }).padding(.bottom, 15)
-            
-            // Settings
-            Button(action: {
+                // your tracks (in view user can pick his tracks only or not)
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "music.note.list")
+                    Text("Tracks")
+                }).padding(.vertical, 15)
                 
-            }, label: {
-                Image(systemName: "gearshape")
-                Text("Settings")
-            })
-            
-            Spacer()
-            // Log out
-            Button(action: {
+                // Settings
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "gearshape")
+                    Text("Settings")
+                })
                 
-            }, label: {
-                HStack {
-                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                    Text("Log Out")
-                }
-                .foregroundColor(.white)
-                .padding(10)
-                .frame(maxWidth: 150)
-            }).background(Color.red)
-                .cornerRadius(10)
+                Spacer()
+                // Log out
+                Button(action: {
+                    
+                }, label: {
+                    HStack {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                        Text("Log Out")
+                    }
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .frame(maxWidth: 150)
+                }).background(Color.red)
+                    .cornerRadius(10)
+            }
+            .padding(20)
+            .foregroundStyle(Color.black).bold()
+            .frame(width: geometry.size.width * 0.50,height: geometry.size.height, alignment: .leading)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(radius: 10)
+            .offset(x: isShowing ? 0 : -geometry.size.width * 0.50)
+            .animation(.easeInOut(duration: 0.3), value: isShowing)
         }
-        .padding(20)
-        .font(.title3)
-        .foregroundStyle(Color.black).bold()
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 #Preview {
-    SideMenuView()
+    @Previewable @State var isShowing: Bool = true
+    SideMenuView(isShowing: $isShowing)
 }
