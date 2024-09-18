@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"reflect"
 
 	_ "github.com/lib/pq"
 )
@@ -39,4 +40,44 @@ func initDatabase() error {
 
 	log.Println("Подключение к базе данных успешно установлено")
 	return nil
+}
+
+func makeQuery[T any](query string) (result []T, err error) {
+	rows, err := db.Query(query)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close() // Закрываем результаты запроса
+
+	err = rowsToStructs(rows, &result)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
+	}
+	return result, nil
+
+}
+
+func rowsToStructs(rows *sql.Rows, dest interface{}) error {
+	destv := reflect.ValueOf(dest).Elem()
+
+	elemType := destv.Type().Elem()
+
+	for rows.Next() {
+		rowp := reflect.New(elemType)
+		rowv := rowp.Elem()
+
+		args := make([]interface{}, rowv.NumField())
+		for i := 0; i < rowv.NumField(); i++ {
+			args[i] = rowv.Field(i).Addr().Interface()
+		}
+
+		if err := rows.Scan(args...); err != nil {
+			return err
+		}
+
+		destv.Set(reflect.Append(destv, rowv))
+	}
+
+	return rows.Err()
 }
