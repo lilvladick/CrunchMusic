@@ -9,10 +9,12 @@ CREATE TABLE tracks (
     id UUID PRIMARY KEY,
     title VARCHAR NOT NULL,
     filepath TEXT NOT NULL,
-    user UUID NOT NULL,
+    user_id UUID NOT NULL,
     genre VARCHAR NOT NULL,
     duration TIMESTAMP
 );
+
+ALTER TABLE tracks ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 CREATE TABLE likes (
     user_id UUID NOT NULL,
@@ -20,5 +22,3 @@ CREATE TABLE likes (
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT fk_track_id FOREIGN KEY (track_id) REFERENCES tracks (id)
 );
-
-ALTER TABLE tracks ADD CONSTRAINT fk_user FOREIGN KEY (user) REFERENCES users (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
