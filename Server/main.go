@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"os"
 	"syscall"
@@ -36,6 +37,18 @@ func main() {
 	}
 	log.Print("server started")
 
+	// Загрузка сертификата и приватного ключа
+	cert, err := tls.LoadX509KeyPair("certificate.crt", "privateKey.key")
+	if err != nil {
+		log.Print("Error loading certificate and key: %v", err)
+		os.Exit(1)
+	}
+
+	// Создание TLS-контекста
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{cert},
+	}
+
 	for {
 		connFd, _, err := syscall.Accept(fd) // AF_INET = IPv4, SOCK_STREAM = TCP
 		if err != nil {
@@ -43,6 +56,8 @@ func main() {
 			os.Exit(1)
 		}
 
-		go handleRequest(connFd)
+		tlsConn := tls.Server(connFd, tlsConfig)
+
+		go handleRequest(tlsConn)
 	}
 }
