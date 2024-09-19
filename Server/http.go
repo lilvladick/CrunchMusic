@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"syscall"
@@ -21,14 +22,33 @@ func handleRequest(fd int) {
 	log.Print(request)
 
 	if strings.HasPrefix(request, "GET ") {
-		response := "HTTP/1.1 200 OK\r\n" +
-			"Content-Type: text/plain\r\n" +
-			"Content-Length: 13\r\n" +
-			"\r\n" +
-			"Hello, world!"
-		syscall.Write(fd, []byte(response))
+		if strings.Contains(request, "/tracks") {
+			query := "SELECT * FROM tracks"
+
+			jsonData, err := getResultsJson(query)
+			if err != nil {
+				log.Print("error fetching tracks: ", err)
+				errorResponse := "HTTP/1.1 500 Internal Server Error\r\n" +
+					"Content-Type: text/plain\r\n" +
+					"\r\n" +
+					"Error fetching tracks"
+				syscall.Write(fd, []byte(errorResponse))
+				return
+			}
+
+			response := "HTTP/1.1 200 OK\r\n" +
+				"Content-Type: application/json\r\n" +
+				"Content-Length: " + fmt.Sprintf("%d", len(jsonData)) + "\r\n" +
+				"\r\n" +
+				string(jsonData)
+
+			syscall.Write(fd, []byte(response))
+		} else {
+			response := "HTTP/1.1 404 Not Found\r\n" + "\r\n"
+			syscall.Write(fd, []byte(response))
+		}
 	} else {
-		responce := "HTTP/1.1 404 Not Found\r\n" + "\r\n"
-		syscall.Write(fd, []byte(responce))
+		response := "HTTP/1.1 404 Not Found\r\n" + "\r\n"
+		syscall.Write(fd, []byte(response))
 	}
 }

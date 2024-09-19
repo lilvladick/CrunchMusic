@@ -2,9 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"reflect"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -40,6 +42,40 @@ func initDatabase() error {
 
 	log.Println("Подключение к базе данных успешно установлено")
 	return nil
+}
+
+func getResultsJson(query string) ([]byte, error) {
+	var result interface{}
+	var err error
+
+	if strings.Contains(query, "tracks") {
+		tracks, err := makeQuery[Track](query)
+		if err != nil {
+			return nil, err
+		}
+		result = tracks
+	} else if strings.Contains(query, "users") {
+		users, err := makeQuery[User](query)
+		if err != nil {
+			return nil, err
+		}
+		result = users
+	} else if strings.Contains(query, "likes") {
+		likes, err := makeQuery[Likes](query)
+		if err != nil {
+			return nil, err
+		}
+		result = likes
+	} else {
+		return nil, fmt.Errorf("unsupported query type")
+	}
+
+	jsonData, err := json.Marshal(result)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в JSON: %w", err)
+	}
+
+	return jsonData, nil
 }
 
 func makeQuery[T any](query string) (result []T, err error) {
