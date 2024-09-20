@@ -3,6 +3,8 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
+#include "erproc.hpp"
+#include "http.hpp"
 
 // Все коментарии и текст в ошибках написаны GigaCode.
 // Так что рука нейросетей только в текст ошибок, ну почти...
@@ -15,7 +17,7 @@ int main() {
     socklen_t clientAddrLen = sizeof(clientAddr);
 
     serverSocket = Socket(AF_INET, SOCK_STREAM, 0);
-
+    
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(PORT);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
