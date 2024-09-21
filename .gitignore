@@ -1,3 +1,2 @@
-/Server/certificate.crt
-/Server/privateKey.key
+/Server/SSLCerf/*
 .vscode

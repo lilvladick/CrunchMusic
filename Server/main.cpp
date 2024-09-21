@@ -5,7 +5,7 @@
 #include <string.h>
 #include "erproc.hpp"
 #include "http.hpp"
-
+#include "postgre.hpp"
 // Все коментарии и текст в ошибках написаны GigaCode.
 // Так что рука нейросетей только в текст ошибок, ну почти...
 
@@ -21,6 +21,7 @@ int main() {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(PORT);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
+
 
     Bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 
