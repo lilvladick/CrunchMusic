@@ -12,7 +12,7 @@ struct SideMenuView: View {
                 }, label: {
                     Image(systemName: "square.and.arrow.up")
                     Text("Upload Tracks")
-                }).padding(.top, 50)
+                }).padding(.top, 60)
                 
                 // your tracks (in view user can pick his tracks only or not)
                 Button(action: {
@@ -20,7 +20,7 @@ struct SideMenuView: View {
                 }, label: {
                     Image(systemName: "music.note.list")
                     Text("Tracks")
-                }).padding(.vertical, 15)
+                }).padding(.vertical, 25)
                 
                 // Settings
                 Button(action: {
@@ -40,12 +40,12 @@ struct SideMenuView: View {
                         Text("Log Out")
                     }
                     .foregroundColor(.white)
-                    .padding(10)
+                    .padding(14)
                     .frame(maxWidth: 150)
                 }).background(Color.red)
                     .cornerRadius(10)
             }
-            .padding(20)
+            .padding(30)
             .foregroundStyle(Color.black).bold()
             .frame(width: geometry.size.width * 0.50,height: geometry.size.height, alignment: .leading)
             .background(Color.white)
