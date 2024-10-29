@@ -1,4 +1,4 @@
-package main
+package postgres
 
 import (
 	"database/sql"
@@ -16,14 +16,14 @@ const (
 	host     = "localhost"
 	port     = 5431
 	user     = "postgres"
-	password = "admin"
-	dbname   = "CrunchMusic"
+	password = "Vlad_sosi"
+	dbname   = "postgres"
 )
 
 var db *sql.DB
 
 // Функция подключения к БД
-func initDatabase() error {
+func InitDatabase() error {
 	var err error
 
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
@@ -44,24 +44,24 @@ func initDatabase() error {
 	return nil
 }
 
-func getResultsJson(query string) ([]byte, error) {
+func GetResultsJson(query string) ([]byte, error) {
 	var result interface{}
 	var err error
 
 	if strings.Contains(query, "tracks") {
-		tracks, err := makeQuery[Track](query)
+		tracks, err := MakeQuery[Track](query)
 		if err != nil {
 			return nil, err
 		}
 		result = tracks
 	} else if strings.Contains(query, "users") {
-		users, err := makeQuery[User](query)
+		users, err := MakeQuery[User](query)
 		if err != nil {
 			return nil, err
 		}
 		result = users
 	} else if strings.Contains(query, "likes") {
-		likes, err := makeQuery[Likes](query)
+		likes, err := MakeQuery[Likes](query)
 		if err != nil {
 			return nil, err
 		}
@@ -78,7 +78,7 @@ func getResultsJson(query string) ([]byte, error) {
 	return jsonData, nil
 }
 
-func makeQuery[T any](query string) (result []T, err error) {
+func MakeQuery[T any](query string) (result []T, err error) {
 	rows, err := db.Query(query)
 
 	if err != nil {
@@ -86,7 +86,7 @@ func makeQuery[T any](query string) (result []T, err error) {
 	}
 	defer rows.Close() // Закрываем результаты запроса
 
-	err = rowsToStructs(rows, &result)
+	err = RowsToStructs(rows, &result)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
 	}
@@ -94,7 +94,7 @@ func makeQuery[T any](query string) (result []T, err error) {
 
 }
 
-func rowsToStructs(rows *sql.Rows, dest interface{}) error {
+func RowsToStructs(rows *sql.Rows, dest interface{}) error {
 	destv := reflect.ValueOf(dest).Elem()
 
 	elemType := destv.Type().Elem()

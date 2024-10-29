@@ -1,6 +1,7 @@
 package main
 
 import (
+	"CrunchServer/postgres"
 	"fmt"
 	"log"
 	"strings"
@@ -25,7 +26,7 @@ func handleRequest(fd int) {
 		if strings.Contains(request, "/tracks") {
 			query := "SELECT * FROM tracks"
 
-			jsonData, err := getResultsJson(query)
+			jsonData, err := postgres.GetResultsJson(query)
 			if err != nil {
 				log.Print("error fetching tracks: ", err)
 				errorResponse := "HTTP/1.1 500 Internal Server Error\r\n" +

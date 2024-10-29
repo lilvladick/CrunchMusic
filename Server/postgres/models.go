@@ -1,4 +1,4 @@
-package main
+package postgres
 
 import "github.com/lib/pq"
 
