@@ -17,7 +17,7 @@ const (
 	port     = 5431
 	user     = "postgres"
 	password = "Vlad_sosi"
-	dbname   = "postgres"
+	dbname   = "CrunchMusic"
 )
 
 var db *sql.DB

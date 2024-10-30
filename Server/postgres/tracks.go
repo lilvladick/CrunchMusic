@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func UploadTrack(db *sql.DB, id string, title string, filepath string, user_id string, genre string, now time.Time) (string, error) {
+func UploadTrack(db *sql.DB, id int, title string, filepath string, user_id string, genre string, now time.Time) (string, error) {
 	sqlStatement := `
         INSERT INTO tracks (id, title, filepath, user_id, genre, now)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -18,7 +18,7 @@ func UploadTrack(db *sql.DB, id string, title string, filepath string, user_id s
 	return trackId, err
 }
 
-func DeleteTrack(db *sql.DB, id string) error {
+func DeleteTrack(db *sql.DB, id int) error {
 	sqlStatement := `
         DELETE FROM tracks
         WHERE id = $1;
@@ -27,7 +27,7 @@ func DeleteTrack(db *sql.DB, id string) error {
 	return err
 }
 
-func GetTrackByID(db *sql.DB, id string) (*sql.Row, error) {
+func GetTrackByID(db *sql.DB, id int) (*sql.Row, error) {
 	sqlStatement := `
         SELECT * FROM tracks
         WHERE id = $1;
