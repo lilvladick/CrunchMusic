@@ -10,33 +10,35 @@
 		5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844172C99B78C000EC38F /* SecureStorage.swift */; };
 		5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844192C99BBBD000EC38F /* Credentials.swift */; };
 		5E08441C2C99C316000EC38F /* Passwords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E08441B2C99C312000EC38F /* Passwords.swift */; };
+		5E5B23E52CDCC9DB00321D60 /* TabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E42CDCC9D200321D60 /* TabPage.swift */; };
+		5E5B23E82CDCCA1300321D60 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E72CDCCA0800321D60 /* CustomTabBar.swift */; };
+		5E5B23EA2CDCCA2300321D60 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E92CDCCA1800321D60 /* TabBarItem.swift */; };
 		5E92BFEA2CB1340B0070618B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92BFE92CB134000070618B /* Track.swift */; };
 		5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */; };
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
-		5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5186A2C95AD8E001A32B8 /* AuthView.swift */; };
-		5EE10F542C99580800562071 /* UploadTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE10F532C9957F700562071 /* UploadTrackView.swift */; };
+		5EDDFB252CDCBC6900E74D49 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */; };
+		5EDDFB272CDCBEB600E74D49 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDDFB262CDCBEB000E74D49 /* TabBarView.swift */; };
 		5EE10F562C99586000562071 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE10F552C99585800562071 /* SettingsView.swift */; };
 		5EE10F582C9958A100562071 /* UserTracksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE10F572C99589500562071 /* UserTracksView.swift */; };
-		5EFE51742C96C82600FE7823 /* TracksList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE51732C96C82600FE7823 /* TracksList.swift */; };
-		5EFE51762C96CB2300FE7823 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE51752C96CB2300FE7823 /* SideMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5E0844172C99B78C000EC38F /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		5E0844192C99BBBD000EC38F /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		5E08441B2C99C312000EC38F /* Passwords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passwords.swift; sourceTree = "<group>"; };
+		5E5B23E42CDCC9D200321D60 /* TabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPage.swift; sourceTree = "<group>"; };
+		5E5B23E72CDCCA0800321D60 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		5E5B23E92CDCCA1800321D60 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		5E92BFE92CB134000070618B /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrunchMusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrunchMusicAppApp.swift; sourceTree = "<group>"; };
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		5ED5186A2C95AD8E001A32B8 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		5EE10F532C9957F700562071 /* UploadTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTrackView.swift; sourceTree = "<group>"; };
+		5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
+		5EDDFB262CDCBEB000E74D49 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		5EE10F552C99585800562071 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5EE10F572C99589500562071 /* UserTracksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTracksView.swift; sourceTree = "<group>"; };
-		5EFE51732C96C82600FE7823 /* TracksList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksList.swift; sourceTree = "<group>"; };
-		5EFE51752C96CB2300FE7823 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E5B23E62CDCC9F500321D60 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				5E5B23E92CDCCA1800321D60 /* TabBarItem.swift */,
+				5E5B23E72CDCCA0800321D60 /* CustomTabBar.swift */,
+				5EDDFB262CDCBEB000E74D49 /* TabBarView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		5EBDF4CE2C92D9A000021679 = {
 			isa = PBXGroup;
 			children = (
@@ -90,12 +102,10 @@
 		5EFE51702C96C7B800FE7823 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5E5B23E62CDCC9F500321D60 /* TabBar */,
+				5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */,
 				5EE10F572C99589500562071 /* UserTracksView.swift */,
 				5EE10F552C99585800562071 /* SettingsView.swift */,
-				5EE10F532C9957F700562071 /* UploadTrackView.swift */,
-				5ED5186A2C95AD8E001A32B8 /* AuthView.swift */,
-				5EFE51732C96C82600FE7823 /* TracksList.swift */,
-				5EFE51752C96CB2300FE7823 /* SideMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -103,6 +113,7 @@
 		5EFE51712C96C7CB00FE7823 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5E5B23E42CDCC9D200321D60 /* TabPage.swift */,
 				5E92BFE92CB134000070618B /* Track.swift */,
 			);
 			path = Models;
@@ -189,16 +200,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E08441C2C99C316000EC38F /* Passwords.swift in Sources */,
+				5EDDFB272CDCBEB600E74D49 /* TabBarView.swift in Sources */,
 				5E92BFEA2CB1340B0070618B /* Track.swift in Sources */,
-				5EFE51742C96C82600FE7823 /* TracksList.swift in Sources */,
+				5E5B23E82CDCCA1300321D60 /* CustomTabBar.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
 				5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */,
+				5E5B23EA2CDCCA2300321D60 /* TabBarItem.swift in Sources */,
 				5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */,
+				5E5B23E52CDCC9DB00321D60 /* TabPage.swift in Sources */,
 				5EE10F582C9958A100562071 /* UserTracksView.swift in Sources */,
-				5EE10F542C99580800562071 /* UploadTrackView.swift in Sources */,
 				5EE10F562C99586000562071 /* SettingsView.swift in Sources */,
-				5EFE51762C96CB2300FE7823 /* SideMenuView.swift in Sources */,
-				5ED5186B2C95AD8E001A32B8 /* AuthView.swift in Sources */,
+				5EDDFB252CDCBC6900E74D49 /* MainScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
