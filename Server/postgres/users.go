@@ -1,4 +1,4 @@
-package main
+package postgres
 
 import (
 	"database/sql"
@@ -6,7 +6,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func insertUser(db *sql.DB, id string, name string, login string, password []byte) (string, error) {
+func InsertUser(db *sql.DB, id int, name string, login string, password []byte) (string, error) {
 	sqlStatement := `
         INSERT INTO users (id, name, login, password)
         VALUES ($1, $2, $3, $4)
@@ -17,7 +17,7 @@ func insertUser(db *sql.DB, id string, name string, login string, password []byt
 	return userId, err
 }
 
-func deleteUser(db *sql.DB, id string) error {
+func DeleteUser(db *sql.DB, id int) error {
 	sqlStatement := `
         DELETE FROM users
         WHERE id = $1;
@@ -26,7 +26,7 @@ func deleteUser(db *sql.DB, id string) error {
 	return err
 }
 
-func updateUser(db *sql.DB, id string, name string, login string, password []byte) error {
+func UpdateUser(db *sql.DB, id int, name string, login string, password []byte) error {
 	sqlStatement := `
         UPDATE users
         SET name = $2, login = $3, password = $4
@@ -36,7 +36,7 @@ func updateUser(db *sql.DB, id string, name string, login string, password []byt
 	return err
 }
 
-func queryUsers(db *sql.DB, login string) (*sql.Rows, error) {
+func QueryUsers(db *sql.DB, login string) (*sql.Rows, error) {
 	sqlStatement := `
         SELECT * FROM users
         WHERE login = $1;
@@ -44,7 +44,7 @@ func queryUsers(db *sql.DB, login string) (*sql.Rows, error) {
 	return db.Query(sqlStatement, login)
 }
 
-func getUserByID(db *sql.DB, id string) (*sql.Row, error) {
+func GetUserByID(db *sql.DB, id int) (*sql.Row, error) {
 	sqlStatement := `
         SELECT * FROM users
         WHERE id = $1;
