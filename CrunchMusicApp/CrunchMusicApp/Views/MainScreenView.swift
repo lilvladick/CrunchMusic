@@ -3,7 +3,6 @@ import SwiftUI
 struct MainScreenView: View {
     var body: some View {
         VStack {
-            
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing, content: {
