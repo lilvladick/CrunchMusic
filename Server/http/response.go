@@ -1,35 +1,40 @@
-package router
+package Http
 
 import (
 	"fmt"
-	"net/http"
 	"syscall"
 )
 
+type Header map[string][]string
+
+func (h Header) Set(key, value string) {
+	h[key] = []string{value}
+}
+
 type Response struct {
 	fd          int
-	header      http.Header
+	header      Header
 	status      int
 	headersSent bool
 }
 
-func (w *Response) Header() http.Header {
+func (w *Response) Header() Header {
 	return w.header
 }
 
 func (w *Response) WriteHeader(statusCode int) {
 	if !w.headersSent {
 		w.status = statusCode
-		w.Write(nil) // Trigger sending headers with status
+		w.Write(nil)
 	}
 }
 
 func (w *Response) Write(data []byte) (int, error) {
 	if w.status == 0 {
-		w.status = http.StatusOK
+		w.status = StatusOK
 	}
 	if !w.headersSent {
-		statusLine := fmt.Sprintf("HTTP/1.1 %d %s\r\n", w.status, http.StatusText(w.status))
+		statusLine := fmt.Sprintf("HTTP/1.1 %d %s\r\n", w.status, GetStatusText(w.status))
 		_, err := syscall.Write(w.fd, []byte(statusLine))
 		if err != nil {
 			return 0, err
@@ -57,7 +62,7 @@ func (w *Response) Write(data []byte) (int, error) {
 func NewResponseWriter(fd int) *Response {
 	return &Response{
 		fd:          fd,
-		header:      make(http.Header),
+		header:      make(Header),
 		status:      0,
 		headersSent: false,
 	}

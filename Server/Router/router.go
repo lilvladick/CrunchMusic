@@ -2,31 +2,38 @@ package router
 
 import (
 	"CrunchServer/handlers"
+	Http "CrunchServer/http"
 	"bufio"
 	"bytes"
 	"context"
+	"fmt"
 	"log"
-	"net/http"
 	"regexp"
 	"strings"
 	"syscall"
 )
 
+type HandlerFunc func(Http.Response, *Http.Request)
+
+func (f HandlerFunc) ServeHTTP(w Http.Response, r *Http.Request) {
+	f(w, r)
+}
+
 var routes = []route{
 	NewRoute("GET", "/tracks", handlers.AllTracks),
 }
 
-func NewRoute(method, pattern string, handler http.HandlerFunc) route {
+func NewRoute(method, pattern string, handler HandlerFunc) route {
 	return route{method, regexp.MustCompile("^" + pattern + "$"), handler}
 }
 
 type route struct {
 	method  string
 	regex   *regexp.Regexp
-	handler http.HandlerFunc
+	handler HandlerFunc
 }
 
-func Serve(w http.ResponseWriter, r *http.Request) {
+func Serve(w Http.Response, r *Http.Request) {
 	var allow []string
 	for _, route := range routes {
 		matches := route.regex.FindStringSubmatch(r.URL.Path)
@@ -42,10 +49,12 @@ func Serve(w http.ResponseWriter, r *http.Request) {
 	}
 	if len(allow) > 0 {
 		w.Header().Set("Allow", strings.Join(allow, ", "))
-		http.Error(w, "405 method not allowed", http.StatusMethodNotAllowed)
+		w.WriteHeader(Http.StatusMethodNotAllowed) // 405 Method Not Allowed
+		fmt.Println("405 method not allowed")
 		return
 	}
-	http.NotFound(w, r)
+	w.WriteHeader(Http.StatusNotFound) // 404 Not Found
+	fmt.Println("404 not found")
 }
 
 func ListenAndServe() error {
@@ -94,19 +103,19 @@ func HandleFd(fd int) {
 	}
 	reader := bytes.NewBuffer(buf[:n])
 
-	req, err := http.ReadRequest(bufio.NewReader(reader))
+	req, err := Http.ReadRequest(bufio.NewReader(reader))
 	if err != nil {
 		log.Print("error: ", err)
 		return
 	}
 
-	res := NewResponseWriter(fd)
-	Serve(res, req)
+	res := Http.NewResponseWriter(fd)
+	Serve(*res, req)
 }
 
 type ctxKey struct{}
 
-func GetField(r *http.Request, index int) string {
-	fields := r.Context().Value(ctxKey{}).([]string)
-	return fields[index]
-}
+// func GetField(r *http.Request, index int) string {
+// 	fields := r.Context().Value(ctxKey{}).([]string)
+// 	return fields[index]
+// }
