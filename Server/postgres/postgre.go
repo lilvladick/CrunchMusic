@@ -48,9 +48,10 @@ func GetResultsJson(query string) ([]byte, error) {
 	var result interface{}
 	var err error
 
-	if strings.Contains(query, "tracks") {
-		tracks, err := MakeQuery[Track](query)
+	if strings.Contains(query, "playlists") {
+		tracks, err := MakeQuery[Playlist](query)
 		if err != nil {
+			//log.Printf("Ошибка: %s\n", err)
 			return nil, err
 		}
 		result = tracks
@@ -62,6 +63,18 @@ func GetResultsJson(query string) ([]byte, error) {
 		result = users
 	} else if strings.Contains(query, "likes") {
 		likes, err := MakeQuery[Likes](query)
+		if err != nil {
+			return nil, err
+		}
+		result = likes
+	} else if strings.Contains(query, "playlist_tracks") {
+		likes, err := MakeQuery[Playlist_tracks](query)
+		if err != nil {
+			return nil, err
+		}
+		result = likes
+	} else if strings.Contains(query, "tracks") {
+		likes, err := MakeQuery[Track](query)
 		if err != nil {
 			return nil, err
 		}
@@ -78,20 +91,27 @@ func GetResultsJson(query string) ([]byte, error) {
 	return jsonData, nil
 }
 
-func MakeQuery[T any](query string) (result []T, err error) {
-	rows, err := db.Query(query)
+func MakeQuery[T any](query string, args ...interface{}) (result []T, err error) {
+	if strings.HasPrefix(strings.ToUpper(query), "SELECT") {
+		rows, err := db.Query(query, args...)
+		if err != nil {
+			return nil, fmt.Errorf("ошибка выполнения SELECT запроса: %w", err)
+		}
+		defer rows.Close()
 
-	if err != nil {
-		log.Fatal(err)
+		err = RowsToStructs(rows, &result)
+		if err != nil {
+			return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
+		}
+		return result, nil
+	} else {
+		_, err := db.Exec(query, args...)
+		if err != nil {
+			return nil, fmt.Errorf("ошибка выполнения запроса: %w", err)
+		}
+
+		return nil, nil
 	}
-	defer rows.Close() // Закрываем результаты запроса
-
-	err = RowsToStructs(rows, &result)
-	if err != nil {
-		return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
-	}
-	return result, nil
-
 }
 
 func RowsToStructs(rows *sql.Rows, dest interface{}) error {

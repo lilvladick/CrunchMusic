@@ -9,9 +9,10 @@ CREATE TABLE tracks (
     id SERIAL PRIMARY KEY,
     title VARCHAR NOT NULL,
     filepath TEXT NOT NULL,
-    artist VARCHAR NOT NULL,
+    user_id int NOT NULL,
     genre VARCHAR NOT NULL,
     duration TIME
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE likes (

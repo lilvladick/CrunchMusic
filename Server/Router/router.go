@@ -15,12 +15,13 @@ import (
 
 type HandlerFunc func(Http.Response, *Http.Request)
 
-func (f HandlerFunc) ServeHTTP(w Http.Response, r *Http.Request) {
-	f(w, r)
-}
-
 var routes = []route{
 	NewRoute("GET", "/tracks", handlers.AllTracks),
+	NewRoute("GET", "/home", handlers.Home),
+	NewRoute("GET", "/playlist", handlers.AllPlaylists),
+	NewRoute("GET", "/playlist_tracks", handlers.AllTracksFromPlaylists),
+	NewRoute("POST", "/tracks", handlers.HandleAddTrack),
+	NewRoute("GET", "/tracksfromplaylist", handlers.TracksFromPlaylist),
 }
 
 func NewRoute(method, pattern string, handler HandlerFunc) route {
@@ -50,11 +51,11 @@ func Serve(w Http.Response, r *Http.Request) {
 	if len(allow) > 0 {
 		w.Header().Set("Allow", strings.Join(allow, ", "))
 		w.WriteHeader(Http.StatusMethodNotAllowed) // 405 Method Not Allowed
-		fmt.Println("405 method not allowed")
+		fmt.Println(Http.GetStatusText(Http.StatusMethodNotAllowed))
 		return
 	}
 	w.WriteHeader(Http.StatusNotFound) // 404 Not Found
-	fmt.Println("404 not found")
+	fmt.Println(Http.GetStatusText(Http.StatusNotFound))
 }
 
 func ListenAndServe() error {
