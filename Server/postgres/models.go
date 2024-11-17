@@ -12,12 +12,12 @@ type User struct {
 }
 
 type Track struct {
-	ID       int         `json:"id"`
-	Title    string      `json:"title"`
-	Filepath string      `json:"filepath"`
-	UserID   int         `json:"user_id"`
-	Genre    string      `json:"genre"`
-	Duration pq.NullTime `json:"duration"`
+	ID       int         `db:"id"`
+	Title    string      `db:"title"`
+	Filepath string      `db:"filepath"`
+	UserID   int         `db:"user_id"`
+	Genre    string      `db:"genre"`
+	Duration pq.NullTime `db:"duration"`
 }
 
 type Likes struct {

@@ -22,6 +22,10 @@ var routes = []route{
 	NewRoute("GET", "/playlist_tracks", handlers.AllTracksFromPlaylists),
 	NewRoute("POST", "/tracks", handlers.HandleAddTrack),
 	NewRoute("GET", "/tracksfromplaylist", handlers.TracksFromPlaylist),
+	NewRoute("POST", "/playlist", handlers.CreatePlaylist),
+	NewRoute("POST", "/playlist_tracks", handlers.AddTrackToPlaylist),
+	NewRoute("GET", "/users", handlers.AllUsers),
+	NewRoute("GET", "/usersbyid", handlers.GetUserById),
 }
 
 func NewRoute(method, pattern string, handler HandlerFunc) route {

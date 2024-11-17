@@ -44,46 +44,15 @@ func InitDatabase() error {
 	return nil
 }
 
-func GetResultsJson(query string) ([]byte, error) {
-	var result interface{}
-	var err error
-
-	if strings.Contains(query, "playlists") {
-		tracks, err := MakeQuery[Playlist](query)
-		if err != nil {
-			//log.Printf("Ошибка: %s\n", err)
-			return nil, err
-		}
-		result = tracks
-	} else if strings.Contains(query, "users") {
-		users, err := MakeQuery[User](query)
-		if err != nil {
-			return nil, err
-		}
-		result = users
-	} else if strings.Contains(query, "likes") {
-		likes, err := MakeQuery[Likes](query)
-		if err != nil {
-			return nil, err
-		}
-		result = likes
-	} else if strings.Contains(query, "playlist_tracks") {
-		likes, err := MakeQuery[Playlist_tracks](query)
-		if err != nil {
-			return nil, err
-		}
-		result = likes
-	} else if strings.Contains(query, "tracks") {
-		likes, err := MakeQuery[Track](query)
-		if err != nil {
-			return nil, err
-		}
-		result = likes
-	} else {
-		return nil, fmt.Errorf("unsupported query type")
+func GetResultsJson(query string, dst interface{}, args ...interface{}) ([]byte, error) {
+	// Выполнение запроса с использованием переданного типа dst
+	err := MakeQuery(query, dst, args...)
+	if err != nil {
+		return nil, err
 	}
 
-	jsonData, err := json.Marshal(result)
+	// Преобразование результата в JSON
+	jsonData, err := json.Marshal(dst)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в JSON: %w", err)
 	}
@@ -91,49 +60,69 @@ func GetResultsJson(query string) ([]byte, error) {
 	return jsonData, nil
 }
 
-func MakeQuery[T any](query string, args ...interface{}) (result []T, err error) {
+func MakeQuery(query string, dst interface{}, args ...interface{}) error {
 	if strings.HasPrefix(strings.ToUpper(query), "SELECT") {
 		rows, err := db.Query(query, args...)
 		if err != nil {
-			return nil, fmt.Errorf("ошибка выполнения SELECT запроса: %w", err)
+			return fmt.Errorf("ошибка выполнения SELECT запроса: %w", err)
 		}
 		defer rows.Close()
 
-		err = RowsToStructs(rows, &result)
+		// Заполнение dst
+		err = RowsToStructs(rows, dst)
 		if err != nil {
-			return nil, fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
+			return fmt.Errorf("ошибка при преобразовании результатов запроса в структуры: %w", err)
 		}
-		return result, nil
+		return nil
 	} else {
+		// Для запросов, не являющихся SELECT
 		_, err := db.Exec(query, args...)
 		if err != nil {
-			return nil, fmt.Errorf("ошибка выполнения запроса: %w", err)
+			return fmt.Errorf("ошибка выполнения запроса: %w", err)
 		}
-
-		return nil, nil
+		return nil
 	}
 }
 
 func RowsToStructs(rows *sql.Rows, dest interface{}) error {
-	destv := reflect.ValueOf(dest).Elem()
+	destValue := reflect.ValueOf(dest)
 
-	elemType := destv.Type().Elem()
-
-	for rows.Next() {
-		rowp := reflect.New(elemType)
-		rowv := rowp.Elem()
-
-		args := make([]interface{}, rowv.NumField())
-		for i := 0; i < rowv.NumField(); i++ {
-			args[i] = rowv.Field(i).Addr().Interface()
-		}
-
-		if err := rows.Scan(args...); err != nil {
-			return err
-		}
-
-		destv.Set(reflect.Append(destv, rowv))
+	// Проверяем, что dest является указателем на срез
+	if destValue.Kind() != reflect.Ptr || destValue.Elem().Kind() != reflect.Slice {
+		return fmt.Errorf("dest должен быть указателем на срез")
 	}
 
-	return rows.Err()
+	sliceValue := destValue.Elem()       // Ссылка на сам срез
+	elemType := sliceValue.Type().Elem() // Тип элемента среза (структура)
+
+	for rows.Next() {
+		// Создаём новый экземпляр структуры
+		elem := reflect.New(elemType).Elem()
+
+		// Подготовка полей структуры для сканирования
+		scanArgs := make([]interface{}, elem.NumField())
+		for i := 0; i < elem.NumField(); i++ {
+			field := elem.Field(i)
+			if field.CanAddr() && field.CanSet() {
+				scanArgs[i] = field.Addr().Interface()
+			} else {
+				return fmt.Errorf("поле %d (%s) структуры %s не адресуемо", i, elemType.Field(i).Name, elemType.Name())
+			}
+		}
+
+		// Сканируем текущую строку в поля структуры
+		if err := rows.Scan(scanArgs...); err != nil {
+			return fmt.Errorf("ошибка сканирования строки: %w", err)
+		}
+
+		// Добавляем элемент в срез
+		sliceValue.Set(reflect.Append(sliceValue, elem))
+	}
+
+	// Проверяем наличие ошибок после чтения строк
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("ошибка при итерации по строкам: %w", err)
+	}
+
+	return nil
 }

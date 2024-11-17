@@ -14,12 +14,12 @@ CREATE TABLE playlist_tracks (
     CONSTRAINT unique_playlist_track_pair UNIQUE (playlist_id, track_id)
 );
 
-INSERT INTO playlists (id, name, user_id)
+INSERT INTO playlists ( name, user_id)
 VALUES
-    (1, 'My Favorite Tracks', 1),
-    (2, 'Workout Playlist', 1),
-    (3, 'Relaxation Music', 2),
-    (4, 'Party Mix', 3);
+    ( 'My Favorite Tracks', 1),
+    ( 'Workout Playlist', 1),
+    ( 'Relaxation Music', 2),
+    ( 'Party Mix', 3);
 
 INSERT INTO playlist_tracks (playlist_id, track_id, added_at)
 VALUES

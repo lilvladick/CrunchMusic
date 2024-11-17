@@ -4,11 +4,13 @@ import (
 	Http "CrunchServer/http"
 	"CrunchServer/postgres"
 	"fmt"
+	"log"
 )
 
-func Handler(query string, w Http.Response, r *Http.Request) {
-	jsonData, err := postgres.GetResultsJson(query)
+func Handler(query string, w Http.Response, r *Http.Request, dest interface{}, args ...interface{}) {
+	jsonData, err := postgres.GetResultsJson(query, dest, args...)
 	if err != nil {
+		log.Printf("error %v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
 		fmt.Println(Http.GetStatusText(Http.StatusInternalServerError))
 		return

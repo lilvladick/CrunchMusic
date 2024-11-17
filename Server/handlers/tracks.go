@@ -2,49 +2,46 @@ package handlers
 
 import (
 	Http "CrunchServer/http"
+	"CrunchServer/models"
 	"CrunchServer/postgres"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 )
 
-var db *sql.DB
-
 func AllTracks(w Http.Response, r *Http.Request) {
 	query := "SELECT * FROM tracks"
-	Handler(query, w, r)
+	Handler(query, w, r, &[]postgres.Track{})
 }
 
 func Home(w Http.Response, r *Http.Request) {
 	query := "SELECT * FROM tracks LIMIT 100;"
-	Handler(query, w, r)
-}
-
-func AddTracks(w Http.Response, r *Http.Request) {
-	query := "INSERT INTO tracks VALUES ($1,$2,$3,$4,$5);"
-	Handler(query, w, r)
+	Handler(query, w, r, &[]postgres.Track{})
 }
 
 func TracksFromPlaylist(w Http.Response, r *Http.Request) {
-	query := "SELECT t.id, t.title, t.filepath, t.user_id, t.genre, t.duration FROM tracks t JOIN playlist_tracks pt ON t.id = pt.track_id WHERE pt.playlist_id = 1; "
-	Handler(query, w, r)
+	query := "SELECT t.* FROM tracks t JOIN playlist_tracks pt ON t.id = pt.track_id WHERE pt.playlist_id = $1; "
+	Handler(query, w, r, &[]postgres.Track{})
 }
 
 func HandleAddTrack(w Http.Response, r *Http.Request) {
-	var track postgres.Track
+	var track models.Track
+
 	err := json.Unmarshal([]byte(r.Body), &track)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
 		fmt.Println(Http.GetStatusText(Http.StatusBadRequest))
 		return
 	}
-	query := "INSERT INTO tracks (title, filepath, user_id, genre, duration) VALUES ('Track 45', '/Server/music/track3.mp3', 1, 'Rap', '00:02:50');"
-	_, err = db.Exec(query, track.Title, track.Filepath, track.UserID, track.Genre, track.Duration)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		fmt.Println(Http.GetStatusText(Http.StatusInternalServerError))
-		return
+	tduration := models.Timestamp{Time: track.Duration}
+	pgTrack := postgres.Track{
+		Title:    track.Title,
+		Filepath: track.Filepath,
+		UserID:   track.UserID,
+		Genre:    track.Genre,
+		Duration: tduration.ToNullTime(),
 	}
-	w.WriteHeader(Http.StatusCreated)
-	fmt.Println(Http.GetStatusText(Http.StatusCreated))
+
+	query := "INSERT INTO tracks (title, filepath, user_id, genre, duration) VALUES ($1, $2, $3, $4, $5)"
+
+	Handler(query, w, r, &postgres.Track{}, pgTrack.Title, pgTrack.Filepath, pgTrack.UserID, pgTrack.Genre, pgTrack.Duration)
 }

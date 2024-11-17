@@ -2,8 +2,10 @@ package Http
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"net/url"
 	"strings"
 )
@@ -22,6 +24,7 @@ func ReadRequest(reader *bufio.Reader) (*Request, error) {
 	if err != nil {
 		return nil, fmt.Errorf("не удалось прочитать первую строку: %v", err)
 	}
+
 	firstLine = strings.TrimSpace(firstLine)
 	parts := strings.Fields(firstLine)
 	if len(parts) < 3 {
@@ -41,9 +44,9 @@ func ReadRequest(reader *bufio.Reader) (*Request, error) {
 		Method: method,
 		URL:    parsedURL,
 		Proto:  proto,
+		Header: make(map[string][]string),
 	}
 
-	req.Header = make(map[string][]string)
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil {
@@ -61,10 +64,11 @@ func ReadRequest(reader *bufio.Reader) (*Request, error) {
 		}
 	}
 
-	body, err := reader.ReadString('\n')
-	if err == nil {
-		req.Body = strings.TrimSpace(body)
+	var body bytes.Buffer
+	if _, err := body.ReadFrom(reader); err != nil && err != io.EOF {
+		return nil, fmt.Errorf("ошибка при чтении тела: %w", err)
 	}
+	req.Body = body.String()
 
 	return req, nil
 }
