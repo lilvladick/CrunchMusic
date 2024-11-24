@@ -4,25 +4,119 @@ import (
 	Http "CrunchServer/http"
 	"CrunchServer/postgres"
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
+type ctxKey struct{}
+
 func AllUsers(w Http.Response, r *Http.Request) {
-	query := "SELECT * FROM users"
-	Handler(query, w, r, &[]postgres.User{})
+	tracks, err := postgres.GetTracks()
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
 }
 
 func GetUserById(w Http.Response, r *Http.Request) {
-	var user postgres.User
-
-	err := json.Unmarshal([]byte(r.Body), &user)
-	if err != nil {
-		log.Print("err: %v", err)
+	var requestBody struct {
+		ID int `json:"id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		fmt.Println(Http.GetStatusText(Http.StatusBadRequest))
+		w.Write([]byte("Invalid JSON"))
 		return
 	}
-	query := "SELECT * FROM users WHERE id=$1"
-	Handler(query, w, r, &[]postgres.User{})
+
+	userID := requestBody.ID
+
+	user, err := postgres.GetUsersByID(userID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	jsonUser, err := json.Marshal(user)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonUser)
+}
+
+func GetUserBylogin(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Login string `json:"login"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	login := requestBody.Login
+
+	user, err := postgres.QueryUsers(login)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	jsonUser, err := json.Marshal(user)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonUser)
+}
+
+func GetUserByName(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Name string `json:"name"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	login := requestBody.Name
+
+	user, err := postgres.GetUsrByName(login)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	jsonUser, err := json.Marshal(user)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonUser)
 }

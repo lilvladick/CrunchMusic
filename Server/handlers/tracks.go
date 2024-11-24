@@ -2,46 +2,190 @@ package handlers
 
 import (
 	Http "CrunchServer/http"
-	"CrunchServer/models"
 	"CrunchServer/postgres"
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 func AllTracks(w Http.Response, r *Http.Request) {
-	query := "SELECT * FROM tracks"
-	Handler(query, w, r, &[]postgres.Track{})
+	tracks, err := postgres.GetTracks()
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
 }
 
 func Home(w Http.Response, r *Http.Request) {
-	query := "SELECT * FROM tracks LIMIT 100;"
-	Handler(query, w, r, &[]postgres.Track{})
+	tracks, err := postgres.Get100Tracks()
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
 }
 
 func TracksFromPlaylist(w Http.Response, r *Http.Request) {
-	query := "SELECT t.* FROM tracks t JOIN playlist_tracks pt ON t.id = pt.track_id WHERE pt.playlist_id = $1; "
-	Handler(query, w, r, &[]postgres.Track{})
+	var requestBody struct {
+		ID int `json:"id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	playlistID := requestBody.ID
+
+	tracks, err := postgres.GetTracksFromPlaylist(playlistID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
+}
+
+func TracksByGenre(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Genre string `json:"genre"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	Genre := requestBody.Genre
+
+	tracks, err := postgres.GetTrackByGenre(Genre)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
+}
+
+func TracksByTitle(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Title string `json:"title"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	Title := requestBody.Title
+
+	tracks, err := postgres.GetTrackByTitle(Title)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	jsonTracks, err := json.Marshal(tracks)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonTracks)
+}
+
+func GetTrackById(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		ID int `json:"id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte("Invalid JSON"))
+		return
+	}
+
+	trackID := requestBody.ID
+
+	user, err := postgres.GetTrackByID(trackID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	jsonUser, err := json.Marshal(user)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonUser)
 }
 
 func HandleAddTrack(w Http.Response, r *Http.Request) {
-	var track models.Track
+	var track postgres.Track
 
 	err := json.Unmarshal([]byte(r.Body), &track)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		fmt.Println(Http.GetStatusText(Http.StatusBadRequest))
+		w.Write([]byte("Bad Request"))
 		return
 	}
-	tduration := models.Timestamp{Time: track.Duration}
-	pgTrack := postgres.Track{
-		Title:    track.Title,
-		Filepath: track.Filepath,
-		UserID:   track.UserID,
-		Genre:    track.Genre,
-		Duration: tduration.ToNullTime(),
+
+	err = postgres.UploadTrack(track.Title, track.Filepath, track.UserID, track.Genre, track.Duration)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
 	}
 
-	query := "INSERT INTO tracks (title, filepath, user_id, genre, duration) VALUES ($1, $2, $3, $4, $5)"
-
-	Handler(query, w, r, &postgres.Track{}, pgTrack.Title, pgTrack.Filepath, pgTrack.UserID, pgTrack.Genre, pgTrack.Duration)
+	w.WriteHeader(Http.StatusCreated)
+	w.Write([]byte("Track created successfully"))
 }

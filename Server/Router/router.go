@@ -26,6 +26,16 @@ var routes = []route{
 	NewRoute("POST", "/playlist_tracks", handlers.AddTrackToPlaylist),
 	NewRoute("GET", "/users", handlers.AllUsers),
 	NewRoute("GET", "/usersbyid", handlers.GetUserById),
+	NewRoute("GET", "/usersbyname", handlers.GetUserByName),
+	NewRoute("GET", "/usersbylogin", handlers.GetUserBylogin),
+	NewRoute("GET", "/tracksbyid", handlers.GetTrackById),
+	NewRoute("GET", "/tracksbygenre", handlers.TracksByGenre),
+	NewRoute("GET", "/tracksbytitle", handlers.TracksByTitle),
+	NewRoute("GET", "/playlistbyname", handlers.PlaylistsByName),
+	NewRoute("GET", "/playlistbyid", handlers.PlaylistsByID),
+	NewRoute("GET", "/playlistbyuserid", handlers.PlaylistsByUserID),
+	NewRoute("GET", "/playlist_tracksbytrackid", handlers.PlaylistsTracksByTrackID),
+	NewRoute("GET", "/playlist_tracksbyplaylistid", handlers.PlaylistsTracksByPlaylistID),
 }
 
 func NewRoute(method, pattern string, handler HandlerFunc) route {
