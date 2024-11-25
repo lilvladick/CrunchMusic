@@ -11,14 +11,14 @@ func AllPlaylists(w Http.Response, r *Http.Request) {
 	playlists, err := postgres.GetPlaylists()
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonPlaylists, err := json.Marshal(playlists)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -32,7 +32,7 @@ func CreatePlaylist(w Http.Response, r *Http.Request) {
 	err := json.Unmarshal([]byte(r.Body), &playlist)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Bad Request"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -40,12 +40,12 @@ func CreatePlaylist(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	w.WriteHeader(Http.StatusCreated)
-	w.Write([]byte("Playlist created successfully"))
+	w.Write([]byte(Http.GetStatusText(Http.StatusCreated)))
 }
 
 func PlaylistsByName(w Http.Response, r *Http.Request) {
@@ -54,7 +54,7 @@ func PlaylistsByName(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -64,7 +64,7 @@ func PlaylistsByName(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -72,7 +72,7 @@ func PlaylistsByName(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -86,7 +86,7 @@ func PlaylistsByUserID(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -96,7 +96,7 @@ func PlaylistsByUserID(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -104,7 +104,7 @@ func PlaylistsByUserID(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -114,27 +114,27 @@ func PlaylistsByUserID(w Http.Response, r *Http.Request) {
 
 func PlaylistsByID(w Http.Response, r *Http.Request) {
 	var requestBody struct {
-		ID int `json:"id"`
+		PlaylistID int `json:"playlist_id"`
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
-	ID := requestBody.ID
+	PlaylistID := requestBody.PlaylistID
 
-	tracks, err := postgres.GetPlaylistByID(ID)
+	tracks, err := postgres.GetPlaylistByID(PlaylistID)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 

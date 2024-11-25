@@ -155,9 +155,8 @@ func GetTracks() ([]Track, error) {
 }
 
 func Get100Tracks() ([]Track, error) {
-	sqlStatement := `
-        "SELECT * FROM tracks LIMIT 100;"
-    `
+	sqlStatement := "SELECT * FROM tracks LIMIT 100;"
+
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
 		return nil, fmt.Errorf("error querying tracks: %v", err)

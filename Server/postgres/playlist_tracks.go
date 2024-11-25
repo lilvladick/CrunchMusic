@@ -3,6 +3,7 @@ package postgres
 import (
 	"fmt"
 
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 )
 
@@ -89,4 +90,13 @@ func GetPlaylistTracks() ([]Playlist_tracks, error) {
 	}
 
 	return playlists_tracks, nil
+}
+
+func AddTrackToPlaylist(playlist_id int, track_id int, added_at pq.NullTime) error {
+	sqlStatement := `
+        INSERT INTO playlist_tracks (playlist_id,track_id,added_at)
+        VALUES ($1, $2,$3);
+    `
+	_, err := db.Exec(sqlStatement, playlist_id, track_id, added_at)
+	return err
 }

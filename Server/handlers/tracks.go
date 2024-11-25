@@ -11,14 +11,14 @@ func AllTracks(w Http.Response, r *Http.Request) {
 	tracks, err := postgres.GetTracks()
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -29,15 +29,17 @@ func AllTracks(w Http.Response, r *Http.Request) {
 func Home(w Http.Response, r *Http.Request) {
 	tracks, err := postgres.Get100Tracks()
 	if err != nil {
+		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
+		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -51,7 +53,7 @@ func TracksFromPlaylist(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -61,7 +63,7 @@ func TracksFromPlaylist(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -69,7 +71,7 @@ func TracksFromPlaylist(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -83,7 +85,7 @@ func TracksByGenre(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -92,14 +94,14 @@ func TracksByGenre(w Http.Response, r *Http.Request) {
 	tracks, err := postgres.GetTrackByGenre(Genre)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -113,7 +115,7 @@ func TracksByTitle(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -122,14 +124,14 @@ func TracksByTitle(w Http.Response, r *Http.Request) {
 	tracks, err := postgres.GetTrackByTitle(Title)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -143,7 +145,7 @@ func GetTrackById(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -153,14 +155,14 @@ func GetTrackById(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusNotFound)
-		w.Write([]byte("User not found"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
 		return
 	}
 
 	jsonUser, err := json.Marshal(user)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -174,7 +176,7 @@ func HandleAddTrack(w Http.Response, r *Http.Request) {
 	err := json.Unmarshal([]byte(r.Body), &track)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Bad Request"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -182,10 +184,10 @@ func HandleAddTrack(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	w.WriteHeader(Http.StatusCreated)
-	w.Write([]byte("Track created successfully"))
+	w.Write([]byte(Http.GetStatusText(Http.StatusCreated)))
 }

@@ -4,7 +4,6 @@ import (
 	Http "CrunchServer/http"
 	"CrunchServer/postgres"
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
@@ -13,14 +12,14 @@ func AllTracksFromPlaylists(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonPlaylists, err := json.Marshal(playlists_tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -28,29 +27,13 @@ func AllTracksFromPlaylists(w Http.Response, r *Http.Request) {
 	w.Write(jsonPlaylists)
 }
 
-func AddTrackToPlaylist(w Http.Response, r *Http.Request) {
-	var playlist_tracks postgres.Playlist_tracks
-
-	err := json.Unmarshal([]byte(r.Body), &playlist_tracks)
-	if err != nil {
-		log.Print("err: %v", err)
-		w.WriteHeader(Http.StatusBadRequest)
-		fmt.Println(Http.GetStatusText(Http.StatusBadRequest))
-		return
-	}
-
-	query := "INSERT INTO playlist_tracks (playlist_id, track_id, added_at) VALUES ($1,$2,$3)"
-
-	Handler(query, w, r, &postgres.Playlist_tracks{}, playlist_tracks.PlaylistID, playlist_tracks.TrackID, playlist_tracks.AddedAt)
-}
-
 func PlaylistsTracksByTrackID(w Http.Response, r *Http.Request) {
 	var requestBody struct {
-		TrackID int `json:"id"`
+		TrackID int `json:"track_id"`
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -60,14 +43,14 @@ func PlaylistsTracksByTrackID(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
@@ -81,7 +64,7 @@ func PlaylistsTracksByPlaylistID(w Http.Response, r *Http.Request) {
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte("Invalid JSON"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
@@ -91,17 +74,39 @@ func PlaylistsTracksByPlaylistID(w Http.Response, r *Http.Request) {
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonTracks)
+}
+
+func AddTrackToPlaylist(w Http.Response, r *Http.Request) {
+	var playlist_track postgres.Playlist_tracks
+
+	err := json.Unmarshal([]byte(r.Body), &playlist_track)
+	if err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	err = postgres.AddTrackToPlaylist(playlist_track.PlaylistID, playlist_track.TrackID, playlist_track.AddedAt)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.WriteHeader(Http.StatusCreated)
+	w.Write([]byte(Http.GetStatusText(Http.StatusCreated)))
 }
