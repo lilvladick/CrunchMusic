@@ -7,15 +7,15 @@ import (
 	"log"
 )
 
-func AllPlaylists(w Http.Response, r *Http.Request) {
-	playlists, err := postgres.GetPlaylists()
+func AllComments(w Http.Response, r *Http.Request) {
+	tracks, err := postgres.GetNewsComments()
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
-	jsonPlaylists, err := json.Marshal(playlists)
+	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -23,20 +23,113 @@ func AllPlaylists(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonPlaylists)
+	w.Write(jsonTracks)
 }
 
-func CreatePlaylist(w Http.Response, r *Http.Request) {
-	var playlist postgres.Playlist
+func GetCommentById(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		ID int `json:"id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
 
-	err := json.Unmarshal([]byte(r.Body), &playlist)
+	CommentID := requestBody.ID
+
+	Author, err := postgres.GetNewsCommentByID(CommentID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func GetCommentByNewsId(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		NewsID int `json:"news_id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	NewsID := requestBody.NewsID
+
+	Author, err := postgres.GetNewsCommentByNewsID(NewsID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func GetCommentByAuthorId(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		AuthorID int `json:"author_id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	AuthorID := requestBody.AuthorID
+
+	Author, err := postgres.GetNewsCommentByAuthorID(AuthorID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func WriteComment(w Http.Response, r *Http.Request) {
+	var comment postgres.NewsComment
+
+	err := json.Unmarshal([]byte(r.Body), &comment)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
 		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
-	err = postgres.CreatePlaylist(playlist.Name, playlist.UserID)
+	err = postgres.InsertNewsComment(comment)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
@@ -46,98 +139,4 @@ func CreatePlaylist(w Http.Response, r *Http.Request) {
 
 	w.WriteHeader(Http.StatusCreated)
 	w.Write([]byte(Http.GetStatusText(Http.StatusCreated)))
-}
-
-func PlaylistsByName(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		Name string `json:"name"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	Name := requestBody.Name
-
-	tracks, err := postgres.GetPlaylistByName(Name)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonTracks, err := json.Marshal(tracks)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
-}
-
-func PlaylistsByUserID(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		UserID int `json:"user_id"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	UserID := requestBody.UserID
-
-	tracks, err := postgres.GetPlaylistByUserID(UserID)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonTracks, err := json.Marshal(tracks)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
-}
-
-func PlaylistsByID(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		PlaylistID int `json:"playlist_id"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	PlaylistID := requestBody.PlaylistID
-
-	tracks, err := postgres.GetPlaylistByID(PlaylistID)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonTracks, err := json.Marshal(tracks)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
 }

@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-func AllTracks(w Http.Response, r *Http.Request) {
-	tracks, err := postgres.GetTracks()
+func AllNews(w Http.Response, r *Http.Request) {
+	tracks, err := postgres.GetNews()
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -26,28 +26,7 @@ func AllTracks(w Http.Response, r *Http.Request) {
 	w.Write(jsonTracks)
 }
 
-func Home(w Http.Response, r *Http.Request) {
-	tracks, err := postgres.Get100Tracks()
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonTracks, err := json.Marshal(tracks)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
-}
-
-func TracksFromPlaylist(w Http.Response, r *Http.Request) {
+func GetNewsById(w Http.Response, r *Http.Request) {
 	var requestBody struct {
 		ID int `json:"id"`
 	}
@@ -57,31 +36,30 @@ func TracksFromPlaylist(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	playlistID := requestBody.ID
+	ID := requestBody.ID
 
-	tracks, err := postgres.GetTracksFromPlaylist(playlistID)
+	Author, err := postgres.GetNewsByID(ID)
 	if err != nil {
 		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
 		return
 	}
 
-	jsonTracks, err := json.Marshal(tracks)
+	jsonAuthor, err := json.Marshal(Author)
 	if err != nil {
-		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
+	w.Write(jsonAuthor)
 }
 
-func TracksByGenre(w Http.Response, r *Http.Request) {
+func GetNewsByAuthorId(w Http.Response, r *Http.Request) {
 	var requestBody struct {
-		Genre string `json:"genre"`
+		AuthorID int `json:"author_id"`
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
@@ -89,16 +67,17 @@ func TracksByGenre(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	Genre := requestBody.Genre
+	AuthorID := requestBody.AuthorID
 
-	tracks, err := postgres.GetTrackByGenre(Genre)
+	Author, err := postgres.GetNewsByAuthorID(AuthorID)
 	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
 		return
 	}
 
-	jsonTracks, err := json.Marshal(tracks)
+	jsonAuthor, err := json.Marshal(Author)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -106,10 +85,41 @@ func TracksByGenre(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
+	w.Write(jsonAuthor)
 }
 
-func TracksByTitle(w Http.Response, r *Http.Request) {
+func GetNewsByCategoryId(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		CategoryID int `json:"category_id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	CategoryID := requestBody.CategoryID
+
+	Author, err := postgres.GetNewsByCategoryID(CategoryID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func GetNewsByTitle(w Http.Response, r *Http.Request) {
 	var requestBody struct {
 		Title string `json:"title"`
 	}
@@ -121,37 +131,7 @@ func TracksByTitle(w Http.Response, r *Http.Request) {
 
 	Title := requestBody.Title
 
-	tracks, err := postgres.GetTrackByTitle(Title)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonTracks, err := json.Marshal(tracks)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
-}
-
-func GetTrackById(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		ID int `json:"id"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	trackID := requestBody.ID
-
-	user, err := postgres.GetTrackByID(trackID)
+	Author, err := postgres.GetNewsByTitle(Title)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusNotFound)
@@ -159,7 +139,7 @@ func GetTrackById(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	jsonUser, err := json.Marshal(user)
+	jsonAuthor, err := json.Marshal(Author)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -167,20 +147,20 @@ func GetTrackById(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonUser)
+	w.Write(jsonAuthor)
 }
 
-func HandleAddTrack(w Http.Response, r *Http.Request) {
-	var track postgres.Track
+func WriteNews(w Http.Response, r *Http.Request) {
+	var news postgres.News
 
-	err := json.Unmarshal([]byte(r.Body), &track)
+	err := json.Unmarshal([]byte(r.Body), &news)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
 		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
-	err = postgres.UploadTrack(track.Title, track.Filepath, track.UserID, track.Genre, track.Duration)
+	err = postgres.InsertNews(news)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)

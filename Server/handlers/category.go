@@ -7,10 +7,8 @@ import (
 	"log"
 )
 
-type ctxKey struct{}
-
-func AllUsers(w Http.Response, r *Http.Request) {
-	tracks, err := postgres.GetUsers()
+func AllCategories(w Http.Response, r *Http.Request) {
+	tracks, err := postgres.GetCategories()
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -28,7 +26,7 @@ func AllUsers(w Http.Response, r *Http.Request) {
 	w.Write(jsonTracks)
 }
 
-func GetUserById(w Http.Response, r *Http.Request) {
+func GetCategoryById(w Http.Response, r *Http.Request) {
 	var requestBody struct {
 		ID int `json:"id"`
 	}
@@ -38,9 +36,9 @@ func GetUserById(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	userID := requestBody.ID
+	CategoryID := requestBody.ID
 
-	user, err := postgres.GetUsersByID(userID)
+	Category, err := postgres.GetCategoriesByID(CategoryID)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusNotFound)
@@ -48,7 +46,7 @@ func GetUserById(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	jsonUser, err := json.Marshal(user)
+	jsonCategory, err := json.Marshal(Category)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -56,41 +54,10 @@ func GetUserById(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonUser)
+	w.Write(jsonCategory)
 }
 
-func GetUserBylogin(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		Login string `json:"login"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	login := requestBody.Login
-
-	user, err := postgres.QueryUsers(login)
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusNotFound)
-		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
-		return
-	}
-
-	jsonUser, err := json.Marshal(user)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonUser)
-}
-
-func GetUserByName(w Http.Response, r *Http.Request) {
+func GetCategoryByName(w Http.Response, r *Http.Request) {
 	var requestBody struct {
 		Name string `json:"name"`
 	}
@@ -100,9 +67,9 @@ func GetUserByName(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	login := requestBody.Name
+	Name := requestBody.Name
 
-	user, err := postgres.GetUsrByName(login)
+	Category, err := postgres.GetCategoryByName(Name)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusNotFound)
@@ -110,7 +77,7 @@ func GetUserByName(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	jsonUser, err := json.Marshal(user)
+	jsonCategory, err := json.Marshal(Category)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -118,5 +85,27 @@ func GetUserByName(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonUser)
+	w.Write(jsonCategory)
+}
+
+func AddCategory(w Http.Response, r *Http.Request) {
+	var category postgres.Category
+
+	err := json.Unmarshal([]byte(r.Body), &category)
+	if err != nil {
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	err = postgres.InsertCategory(category)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.WriteHeader(Http.StatusCreated)
+	w.Write([]byte(Http.GetStatusText(Http.StatusCreated)))
 }

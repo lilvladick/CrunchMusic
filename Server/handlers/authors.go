@@ -7,39 +7,8 @@ import (
 	"log"
 )
 
-func AllTracksFromPlaylists(w Http.Response, r *Http.Request) {
-	playlists_tracks, err := postgres.GetPlaylistTracks()
-	if err != nil {
-		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	jsonPlaylists, err := json.Marshal(playlists_tracks)
-	if err != nil {
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonPlaylists)
-}
-
-func PlaylistsTracksByTrackID(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		TrackID int `json:"track_id"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
-		return
-	}
-
-	TrackID := requestBody.TrackID
-
-	tracks, err := postgres.GetPlaylistTracksByTrackID(TrackID)
+func AllAuthors(w Http.Response, r *Http.Request) {
+	tracks, err := postgres.GetAuthors()
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
@@ -49,6 +18,7 @@ func PlaylistsTracksByTrackID(w Http.Response, r *Http.Request) {
 
 	jsonTracks, err := json.Marshal(tracks)
 	if err != nil {
+		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
 		return
@@ -58,9 +28,73 @@ func PlaylistsTracksByTrackID(w Http.Response, r *Http.Request) {
 	w.Write(jsonTracks)
 }
 
-func PlaylistsTracksByPlaylistID(w Http.Response, r *Http.Request) {
+func GetAuthorById(w Http.Response, r *Http.Request) {
 	var requestBody struct {
-		PlaylistID int `json:"playlist_id"`
+		ID int `json:"id"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	AuthorID := requestBody.ID
+
+	Author, err := postgres.GetAuthorsByID(AuthorID)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func GetAuthorByEmail(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Email string `json:"Email"`
+	}
+	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusBadRequest)
+		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+		return
+	}
+
+	Email := requestBody.Email
+
+	Author, err := postgres.QueryAuthors(Email)
+	if err != nil {
+		log.Printf("%v", err)
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
+		return
+	}
+
+	jsonAuthor, err := json.Marshal(Author)
+	if err != nil {
+		w.WriteHeader(Http.StatusInternalServerError)
+		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonAuthor)
+}
+
+func GetAuthorByName(w Http.Response, r *Http.Request) {
+	var requestBody struct {
+		Name string `json:"name"`
 	}
 	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
@@ -68,17 +102,17 @@ func PlaylistsTracksByPlaylistID(w Http.Response, r *Http.Request) {
 		return
 	}
 
-	playlistID := requestBody.PlaylistID
+	Email := requestBody.Name
 
-	tracks, err := postgres.GetPlaylistTracksByPlaylistID(playlistID)
+	Author, err := postgres.GetAuthorByName(Email)
 	if err != nil {
 		log.Printf("%v", err)
-		w.WriteHeader(Http.StatusInternalServerError)
-		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
+		w.WriteHeader(Http.StatusNotFound)
+		w.Write([]byte(Http.GetStatusText(Http.StatusNotFound)))
 		return
 	}
 
-	jsonTracks, err := json.Marshal(tracks)
+	jsonAuthor, err := json.Marshal(Author)
 	if err != nil {
 		w.WriteHeader(Http.StatusInternalServerError)
 		w.Write([]byte(Http.GetStatusText(Http.StatusInternalServerError)))
@@ -86,20 +120,20 @@ func PlaylistsTracksByPlaylistID(w Http.Response, r *Http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonTracks)
+	w.Write(jsonAuthor)
 }
 
-func AddTrackToPlaylist(w Http.Response, r *Http.Request) {
-	var playlist_track postgres.Playlist_tracks
+func AddAuthor(w Http.Response, r *Http.Request) {
+	var author postgres.Author
 
-	err := json.Unmarshal([]byte(r.Body), &playlist_track)
+	err := json.Unmarshal([]byte(r.Body), &author)
 	if err != nil {
 		w.WriteHeader(Http.StatusBadRequest)
 		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
 		return
 	}
 
-	err = postgres.AddTrackToPlaylist(playlist_track.PlaylistID, playlist_track.TrackID, playlist_track.AddedAt)
+	err = postgres.InsertAuthor(author)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusInternalServerError)

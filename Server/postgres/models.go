@@ -1,38 +1,36 @@
 package postgres
 
 import (
-	"github.com/lib/pq"
+	"time"
 )
 
-type User struct {
+type Author struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
-	Login    string `json:"login"`
-	Password []byte `json:"password"`
+	Email    string `json:"email"`
+	Password []byte `json:"password,omitempty"`
 }
 
-type Track struct {
-	ID       int         `db:"id"`
-	Title    string      `db:"title"`
-	Filepath string      `db:"filepath"`
-	UserID   int         `db:"user_id"`
-	Genre    string      `db:"genre"`
-	Duration pq.NullTime `db:"duration"`
+type Category struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
-type Likes struct {
-	UserID  int `json:"user_id"`
-	TrackID int `json:"track_id"`
+type News struct {
+	ID          int       `json:"id"`
+	Title       string    `json:"title"`
+	NewsContent string    `json:"news_content"`
+	AuthorID    int       `json:"author_id"`
+	CategoryID  int       `json:"category_id"`
+	PublishedAt time.Time `json:"published_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-type Playlist struct {
-	ID     int    `json:"id"`
-	Name   string `json:"name"`
-	UserID int    `json:"user_id"`
-}
-
-type Playlist_tracks struct {
-	PlaylistID int         `json:"playlist_id"`
-	TrackID    int         `json:"track_id"`
-	AddedAt    pq.NullTime `json:"added_at"`
+type NewsComment struct {
+	ID             int       `json:"id"`
+	NewsID         int       `json:"news_id"`
+	AuthorID       int       `json:"author_id"`
+	CommentContent string    `json:"comment_content"`
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
 }
