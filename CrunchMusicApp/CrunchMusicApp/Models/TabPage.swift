@@ -1,13 +1,13 @@
 enum TabPage: String, CaseIterable {
-    case music = "Music"
-    case playlist = "Playlist"
+    case music = "News"
+    case playlist = "Breaking"
     case settings = "Settings"
     
     var icon: String {
         switch self {
-        case .music: return "music.note"
-        case .playlist: return "music.note.list"
-        case .settings: return "gearshape.fill"
+        case .music: return "newspaper"
+        case .playlist: return "exclamationmark.triangle"
+        case .settings: return "gearshape"
         }
     }
     

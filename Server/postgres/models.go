@@ -22,6 +22,7 @@ type News struct {
 	NewsContent string    `json:"news_content"`
 	AuthorID    int       `json:"author_id"`
 	CategoryID  int       `json:"category_id"`
+	IsBreaking  bool      `json:"is_breaking"`
 	PublishedAt time.Time `json:"published_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }

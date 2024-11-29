@@ -12,15 +12,14 @@ struct TabBarView: View {
             TabView(selection: $selectedPage) {
                 MainScreenView()
                     .tag(TabPage.music)
-                Text("Playlist View")
+                BreakingNewsView()
                     .tag(TabPage.playlist)
                 SettingsView()
                     .tag(TabPage.settings)
             }
             
             CustomTabBar(selectedPage: $selectedPage)
-                .padding()
-                .background(Color.gray.opacity(0.2))
+                .padding(.horizontal)
         }
     }
 }

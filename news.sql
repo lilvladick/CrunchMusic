@@ -26,6 +26,7 @@ CREATE TABLE news (
     news_content TEXT NOT NULL,
     author_id INT,
     category_id INT,
+    is_breaking BOOLEAN DEFAULT FALSE, 
     published_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --работает автоматически при вставке
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --работает автоматически при вставке и обновлении
     FOREIGN KEY (category_id) REFERENCES categories(id)

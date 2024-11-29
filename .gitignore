@@ -1,3 +1,17 @@
 /Server/SSLCerf/*
 .vscode
 /Server/music/*
+
+!.xcworkspace/
+
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+
+timeline.xctimeline
+playground.xcworkspace
+
+
+.DS_Store
+Thumbs.db

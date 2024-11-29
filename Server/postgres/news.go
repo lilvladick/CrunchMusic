@@ -67,7 +67,7 @@ func GetNewsByAuthorID(id int) ([]News, error) {
 	var newss []News
 	for rows.Next() {
 		var news News
-		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.PublishedAt, &news.UpdatedAt)
+		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.IsBreaking, &news.PublishedAt, &news.UpdatedAt)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning NewsComment row: %v", err)
 		}
@@ -93,7 +93,7 @@ func GetNewsByCategoryID(id int) ([]News, error) {
 	var newss []News
 	for rows.Next() {
 		var news News
-		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.PublishedAt, &news.UpdatedAt)
+		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.IsBreaking, &news.PublishedAt, &news.UpdatedAt)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning NewsComment row: %v", err)
 		}
@@ -119,7 +119,7 @@ func GetNews() ([]News, error) {
 	var newss []News
 	for rows.Next() {
 		var news News
-		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.PublishedAt, &news.UpdatedAt)
+		err := rows.Scan(&news.ID, &news.Title, &news.NewsContent, &news.AuthorID, &news.CategoryID, &news.IsBreaking, &news.PublishedAt, &news.UpdatedAt)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning NewsComment row: %v", err)
 		}

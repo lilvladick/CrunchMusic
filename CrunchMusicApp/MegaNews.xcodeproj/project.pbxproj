@@ -7,44 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844172C99B78C000EC38F /* SecureStorage.swift */; };
-		5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0844192C99BBBD000EC38F /* Credentials.swift */; };
-		5E08441C2C99C316000EC38F /* Passwords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E08441B2C99C312000EC38F /* Passwords.swift */; };
 		5E5B23E52CDCC9DB00321D60 /* TabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E42CDCC9D200321D60 /* TabPage.swift */; };
 		5E5B23E82CDCCA1300321D60 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E72CDCCA0800321D60 /* CustomTabBar.swift */; };
 		5E5B23EA2CDCCA2300321D60 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B23E92CDCCA1800321D60 /* TabBarItem.swift */; };
-		5E92BFEA2CB1340B0070618B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92BFE92CB134000070618B /* Track.swift */; };
+		5E6E1A632CFA091B000096AD /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A622CFA0918000096AD /* News.swift */; };
+		5E6E1A652CFA1754000096AD /* BreakingNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A642CFA1745000096AD /* BreakingNewsView.swift */; };
+		5E6E1A692CFA1F0E000096AD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A682CFA1F03000096AD /* NetworkManager.swift */; };
+		5E6E1A6C2CFA2E1B000096AD /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */; };
+		5E6E1A742CFA3545000096AD /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A732CFA3541000096AD /* Formatter.swift */; };
 		5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */; };
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
 		5EDDFB252CDCBC6900E74D49 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */; };
 		5EDDFB272CDCBEB600E74D49 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDDFB262CDCBEB000E74D49 /* TabBarView.swift */; };
-		5EE0125F2CDF52C900EDAEDC /* PlaylistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0125E2CDF52BC00EDAEDC /* PlaylistsView.swift */; };
-		5EE012612CDF533700EDAEDC /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE012602CDF533200EDAEDC /* Playlist.swift */; };
-		5EE012632CDF53B200EDAEDC /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE012622CDF53A600EDAEDC /* PlaylistCell.swift */; };
 		5EE10F562C99586000562071 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE10F552C99585800562071 /* SettingsView.swift */; };
-		5EE10F582C9958A100562071 /* UserTracksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE10F572C99589500562071 /* UserTracksView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5E0844172C99B78C000EC38F /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
-		5E0844192C99BBBD000EC38F /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
-		5E08441B2C99C312000EC38F /* Passwords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passwords.swift; sourceTree = "<group>"; };
 		5E5B23E42CDCC9D200321D60 /* TabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPage.swift; sourceTree = "<group>"; };
 		5E5B23E72CDCCA0800321D60 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		5E5B23E92CDCCA1800321D60 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		5E92BFE92CB134000070618B /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrunchMusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E6E1A622CFA0918000096AD /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		5E6E1A642CFA1745000096AD /* BreakingNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakingNewsView.swift; sourceTree = "<group>"; };
+		5E6E1A682CFA1F03000096AD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		5E6E1A6A2CFA2B3C000096AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
+		5E6E1A732CFA3541000096AD /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		5EBDF4D72C92D9A000021679 /* MegaNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MegaNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrunchMusicAppApp.swift; sourceTree = "<group>"; };
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
 		5EDDFB262CDCBEB000E74D49 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
-		5EE0125E2CDF52BC00EDAEDC /* PlaylistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsView.swift; sourceTree = "<group>"; };
-		5EE012602CDF533200EDAEDC /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		5EE012622CDF53A600EDAEDC /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		5EE10F552C99585800562071 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		5EE10F572C99589500562071 /* UserTracksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTracksView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +63,25 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		5E6E1A662CFA1EE4000096AD /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				5E6E1A642CFA1745000096AD /* BreakingNewsView.swift */,
+				5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */,
+				5EE10F552C99585800562071 /* SettingsView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		5E6E1A672CFA1EFB000096AD /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5E6E1A732CFA3541000096AD /* Formatter.swift */,
+				5E6E1A682CFA1F03000096AD /* NetworkManager.swift */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		5EBDF4CE2C92D9A000021679 = {
 			isa = PBXGroup;
 			children = (
@@ -79,7 +93,7 @@
 		5EBDF4D82C92D9A000021679 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */,
+				5EBDF4D72C92D9A000021679 /* MegaNews.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,7 +101,8 @@
 		5EBDF4D92C92D9A000021679 /* CrunchMusicApp */ = {
 			isa = PBXGroup;
 			children = (
-				5EFE51722C96C7D500FE7823 /* Security */,
+				5E6E1A6A2CFA2B3C000096AD /* Info.plist */,
+				5E6E1A672CFA1EFB000096AD /* Assets */,
 				5EFE51712C96C7CB00FE7823 /* Models */,
 				5EFE51702C96C7B800FE7823 /* Views */,
 				5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */,
@@ -105,23 +120,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		5EE0125D2CDF52B300EDAEDC /* Playlists */ = {
-			isa = PBXGroup;
-			children = (
-				5EE012622CDF53A600EDAEDC /* PlaylistCell.swift */,
-				5EE0125E2CDF52BC00EDAEDC /* PlaylistsView.swift */,
-			);
-			path = Playlists;
-			sourceTree = "<group>";
-		};
 		5EFE51702C96C7B800FE7823 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5EE0125D2CDF52B300EDAEDC /* Playlists */,
+				5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */,
+				5E6E1A662CFA1EE4000096AD /* Screens */,
 				5E5B23E62CDCC9F500321D60 /* TabBar */,
-				5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */,
-				5EE10F572C99589500562071 /* UserTracksView.swift */,
-				5EE10F552C99585800562071 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -129,29 +133,18 @@
 		5EFE51712C96C7CB00FE7823 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5EE012602CDF533200EDAEDC /* Playlist.swift */,
+				5E6E1A622CFA0918000096AD /* News.swift */,
 				5E5B23E42CDCC9D200321D60 /* TabPage.swift */,
-				5E92BFE92CB134000070618B /* Track.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		5EFE51722C96C7D500FE7823 /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				5E0844172C99B78C000EC38F /* SecureStorage.swift */,
-				5E08441B2C99C312000EC38F /* Passwords.swift */,
-				5E0844192C99BBBD000EC38F /* Credentials.swift */,
-			);
-			path = Security;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5EBDF4D62C92D9A000021679 /* CrunchMusicApp */ = {
+		5EBDF4D62C92D9A000021679 /* MegaNews */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5EBDF4E52C92D9A300021679 /* Build configuration list for PBXNativeTarget "CrunchMusicApp" */;
+			buildConfigurationList = 5EBDF4E52C92D9A300021679 /* Build configuration list for PBXNativeTarget "MegaNews" */;
 			buildPhases = (
 				5EBDF4D32C92D9A000021679 /* Sources */,
 				5EBDF4D42C92D9A000021679 /* Frameworks */,
@@ -161,9 +154,9 @@
 			);
 			dependencies = (
 			);
-			name = CrunchMusicApp;
+			name = MegaNews;
 			productName = CrunchMusicApp;
-			productReference = 5EBDF4D72C92D9A000021679 /* CrunchMusicApp.app */;
+			productReference = 5EBDF4D72C92D9A000021679 /* MegaNews.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -181,7 +174,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5EBDF4D22C92D9A000021679 /* Build configuration list for PBXProject "CrunchMusicApp" */;
+			buildConfigurationList = 5EBDF4D22C92D9A000021679 /* Build configuration list for PBXProject "MegaNews" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -194,7 +187,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5EBDF4D62C92D9A000021679 /* CrunchMusicApp */,
+				5EBDF4D62C92D9A000021679 /* MegaNews */,
 			);
 		};
 /* End PBXProject section */
@@ -216,21 +209,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E08441C2C99C316000EC38F /* Passwords.swift in Sources */,
 				5EDDFB272CDCBEB600E74D49 /* TabBarView.swift in Sources */,
-				5E92BFEA2CB1340B0070618B /* Track.swift in Sources */,
-				5EE012612CDF533700EDAEDC /* Playlist.swift in Sources */,
 				5E5B23E82CDCCA1300321D60 /* CustomTabBar.swift in Sources */,
+				5E6E1A692CFA1F0E000096AD /* NetworkManager.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
-				5E0844182C99B79B000EC38F /* SecureStorage.swift in Sources */,
 				5E5B23EA2CDCCA2300321D60 /* TabBarItem.swift in Sources */,
-				5EE012632CDF53B200EDAEDC /* PlaylistCell.swift in Sources */,
-				5E08441A2C99BBC9000EC38F /* Credentials.swift in Sources */,
+				5E6E1A632CFA091B000096AD /* News.swift in Sources */,
+				5E6E1A742CFA3545000096AD /* Formatter.swift in Sources */,
+				5E6E1A652CFA1754000096AD /* BreakingNewsView.swift in Sources */,
 				5E5B23E52CDCC9DB00321D60 /* TabPage.swift in Sources */,
-				5EE10F582C9958A100562071 /* UserTracksView.swift in Sources */,
 				5EE10F562C99586000562071 /* SettingsView.swift in Sources */,
-				5EE0125F2CDF52C900EDAEDC /* PlaylistsView.swift in Sources */,
 				5EDDFB252CDCBC6900E74D49 /* MainScreenView.swift in Sources */,
+				5E6E1A6C2CFA2E1B000096AD /* NewsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +357,7 @@
 				DEVELOPMENT_TEAM = BDHB667Z99;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CrunchMusicApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -397,6 +388,7 @@
 				DEVELOPMENT_TEAM = BDHB667Z99;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CrunchMusicApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -419,7 +411,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5EBDF4D22C92D9A000021679 /* Build configuration list for PBXProject "CrunchMusicApp" */ = {
+		5EBDF4D22C92D9A000021679 /* Build configuration list for PBXProject "MegaNews" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5EBDF4E32C92D9A300021679 /* Debug */,
@@ -428,7 +420,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5EBDF4E52C92D9A300021679 /* Build configuration list for PBXNativeTarget "CrunchMusicApp" */ = {
+		5EBDF4E52C92D9A300021679 /* Build configuration list for PBXNativeTarget "MegaNews" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5EBDF4E62C92D9A300021679 /* Debug */,
