@@ -5,6 +5,7 @@ import (
 	"CrunchServer/postgres"
 	"encoding/json"
 	"log"
+	"strconv"
 )
 
 func AllComments(w Http.Response, r *Http.Request) {
@@ -58,18 +59,21 @@ func GetCommentById(w Http.Response, r *Http.Request) {
 }
 
 func GetCommentByNewsId(w Http.Response, r *Http.Request) {
-	var requestBody struct {
-		NewsID int `json:"news_id"`
-	}
-	if err := json.Unmarshal([]byte(r.Body), &requestBody); err != nil {
-		w.WriteHeader(Http.StatusBadRequest)
-		w.Write([]byte(Http.GetStatusText(Http.StatusBadRequest)))
+	NewsID := r.URL.Query().Get("news_id")
+	if NewsID == "" {
+		w.WriteHeader(Http.StatusBadGateway)
+		w.Write([]byte("news_id is required"))
 		return
 	}
 
-	NewsID := requestBody.NewsID
+	NewsIDInt, err := strconv.Atoi(NewsID)
+	if err != nil {
+		w.WriteHeader(Http.StatusBadGateway)
+		w.Write([]byte("news_id is not a number"))
+		return
+	}
 
-	Author, err := postgres.GetNewsCommentByNewsID(NewsID)
+	Author, err := postgres.GetNewsCommentByNewsID(NewsIDInt)
 	if err != nil {
 		log.Printf("%v", err)
 		w.WriteHeader(Http.StatusNotFound)

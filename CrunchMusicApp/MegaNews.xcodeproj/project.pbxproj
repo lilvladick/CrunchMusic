@@ -15,6 +15,13 @@
 		5E6E1A692CFA1F0E000096AD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A682CFA1F03000096AD /* NetworkManager.swift */; };
 		5E6E1A6C2CFA2E1B000096AD /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */; };
 		5E6E1A742CFA3545000096AD /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E1A732CFA3541000096AD /* Formatter.swift */; };
+		5EA72E642CFB276400978EBB /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E632CFB275D00978EBB /* MainScreenViewModel.swift */; };
+		5EA72E662CFB2B7300978EBB /* BreakingNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E652CFB2B6900978EBB /* BreakingNewViewModel.swift */; };
+		5EA72E682CFB304400978EBB /* NewsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E672CFB303C00978EBB /* NewsDetailsView.swift */; };
+		5EA72E6A2CFB375400978EBB /* NewsCommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E692CFB374800978EBB /* NewsCommentsViewModel.swift */; };
+		5EA72E6C2CFB378900978EBB /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E6B2CFB378400978EBB /* Comments.swift */; };
+		5EA72E6E2CFB3B2C00978EBB /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E6D2CFB3B2500978EBB /* CommentCell.swift */; };
+		5EA72E702CFB493300978EBB /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA72E6F2CFB492D00978EBB /* CommentsView.swift */; };
 		5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */; };
 		5EBDF4DF2C92D9A200021679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4DE2C92D9A200021679 /* Assets.xcassets */; };
 		5EBDF4E22C92D9A300021679 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EBDF4E12C92D9A300021679 /* Preview Assets.xcassets */; };
@@ -33,6 +40,13 @@
 		5E6E1A6A2CFA2B3C000096AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		5E6E1A732CFA3541000096AD /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		5EA72E632CFB275D00978EBB /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
+		5EA72E652CFB2B6900978EBB /* BreakingNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakingNewViewModel.swift; sourceTree = "<group>"; };
+		5EA72E672CFB303C00978EBB /* NewsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailsView.swift; sourceTree = "<group>"; };
+		5EA72E692CFB374800978EBB /* NewsCommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCommentsViewModel.swift; sourceTree = "<group>"; };
+		5EA72E6B2CFB378400978EBB /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
+		5EA72E6D2CFB3B2500978EBB /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		5EA72E6F2CFB492D00978EBB /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		5EBDF4D72C92D9A000021679 /* MegaNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MegaNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBDF4DA2C92D9A000021679 /* CrunchMusicAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrunchMusicAppApp.swift; sourceTree = "<group>"; };
 		5EBDF4DE2C92D9A200021679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -66,6 +80,7 @@
 		5E6E1A662CFA1EE4000096AD /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				5EA72E672CFB303C00978EBB /* NewsDetailsView.swift */,
 				5E6E1A642CFA1745000096AD /* BreakingNewsView.swift */,
 				5EDDFB242CDCBC5600E74D49 /* MainScreenView.swift */,
 				5EE10F552C99585800562071 /* SettingsView.swift */,
@@ -80,6 +95,16 @@
 				5E6E1A682CFA1F03000096AD /* NetworkManager.swift */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		5EA72E622CFB275200978EBB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5EA72E692CFB374800978EBB /* NewsCommentsViewModel.swift */,
+				5EA72E652CFB2B6900978EBB /* BreakingNewViewModel.swift */,
+				5EA72E632CFB275D00978EBB /* MainScreenViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		5EBDF4CE2C92D9A000021679 = {
@@ -123,7 +148,10 @@
 		5EFE51702C96C7B800FE7823 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5EA72E6F2CFB492D00978EBB /* CommentsView.swift */,
+				5EA72E6D2CFB3B2500978EBB /* CommentCell.swift */,
 				5E6E1A6B2CFA2E15000096AD /* NewsCell.swift */,
+				5EA72E622CFB275200978EBB /* ViewModels */,
 				5E6E1A662CFA1EE4000096AD /* Screens */,
 				5E5B23E62CDCC9F500321D60 /* TabBar */,
 			);
@@ -133,6 +161,7 @@
 		5EFE51712C96C7CB00FE7823 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5EA72E6B2CFB378400978EBB /* Comments.swift */,
 				5E6E1A622CFA0918000096AD /* News.swift */,
 				5E5B23E42CDCC9D200321D60 /* TabPage.swift */,
 			);
@@ -210,12 +239,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EDDFB272CDCBEB600E74D49 /* TabBarView.swift in Sources */,
+				5EA72E702CFB493300978EBB /* CommentsView.swift in Sources */,
 				5E5B23E82CDCCA1300321D60 /* CustomTabBar.swift in Sources */,
+				5EA72E662CFB2B7300978EBB /* BreakingNewViewModel.swift in Sources */,
 				5E6E1A692CFA1F0E000096AD /* NetworkManager.swift in Sources */,
 				5EBDF4DB2C92D9A000021679 /* CrunchMusicAppApp.swift in Sources */,
+				5EA72E6E2CFB3B2C00978EBB /* CommentCell.swift in Sources */,
+				5EA72E6A2CFB375400978EBB /* NewsCommentsViewModel.swift in Sources */,
 				5E5B23EA2CDCCA2300321D60 /* TabBarItem.swift in Sources */,
 				5E6E1A632CFA091B000096AD /* News.swift in Sources */,
+				5EA72E6C2CFB378900978EBB /* Comments.swift in Sources */,
 				5E6E1A742CFA3545000096AD /* Formatter.swift in Sources */,
+				5EA72E642CFB276400978EBB /* MainScreenViewModel.swift in Sources */,
+				5EA72E682CFB304400978EBB /* NewsDetailsView.swift in Sources */,
 				5E6E1A652CFA1754000096AD /* BreakingNewsView.swift in Sources */,
 				5E5B23E52CDCC9DB00321D60 /* TabPage.swift in Sources */,
 				5EE10F562C99586000562071 /* SettingsView.swift in Sources */,

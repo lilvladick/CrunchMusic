@@ -1,12 +1,11 @@
 import Foundation
 
 class NetworkManager {
+    
     static func fetchData<T: Codable>(from urlString: String) async throws -> T {
         guard let url = URL(string: urlString) else {
             throw NetworkError.invalidURL
         }
-
-        print("Fetching data from: \(urlString)")
 
         do {
             let (data, response) = try await URLSession.shared.data(from: url)

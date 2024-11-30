@@ -1,50 +1,36 @@
 import SwiftUI
 
 struct MainScreenView: View {
-    @State private var newsList: [News] = []
-    @State private var isLoading: Bool = true
-    @State private var error: String?
-    
-    let newsURL = "http://127.0.0.1:8080/news"
+    @StateObject var mainScreenViewModel: MainScreenViewModel
+    @Binding var isTabBarHidden: Bool
     
     var body: some View {
         NavigationStack {
             VStack {
-                if isLoading {
+                if mainScreenViewModel.isLoading {
                     ProgressView("Загрузка новостей...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
-                } else if let error = error {
+                } else if let error = mainScreenViewModel.error {
                     Text(error)
                 } else {
-                    List(newsList) { newsItem in
-                        NavigationLink(destination: Text(newsItem.newsContent)) {
+                    List(mainScreenViewModel.newsList) { newsItem in
+                        NavigationLink(destination: NewsDetailsView(newsCommentsViewModel: NewsCommentsViewModel(newsID: newsItem.id), news: newsItem)) {
                             NewsCell(news: newsItem)
                         }
                     }
                 }
-            }.onAppear {
+            }
+            .refreshable {
+                await mainScreenViewModel.loadNews()
+            }
+            .onAppear {
                 Task {
-                    await loadNews()
+                    await mainScreenViewModel.loadNews()
                 }
             }
             .navigationTitle("Новости")
         }
     }
-    
-    func loadNews() async {
-        do {
-            let news: [News] = try await NetworkManager.fetchData(from: newsURL)
-            self.newsList = news
-            self.isLoading = false
-        } catch {
-            self.error = "Error loading data: \(error.localizedDescription)"
-            self.isLoading = false
-        }
-    }
-
 }
 
-#Preview {
-    MainScreenView()
-}
